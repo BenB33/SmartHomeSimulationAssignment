@@ -22,6 +22,8 @@ public:
 	void printDateDay();
 	void printDateMonth();
 	void printDateYear();
+	void printHistoricData(uint16_t readingCount, std::string temperature, std::string luxLevel, std::string humidity);
+	void printHistoricDataHeader();
 
 	MainMenuChoice printMainMenu();
 	DeviceMenuChoice deviceMenu();

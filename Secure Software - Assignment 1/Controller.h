@@ -42,7 +42,6 @@ public:
 
 	void viewDeviceStatus();
 	void changeDeviceStatus();
-	void configureDeviceIntensity();
 	void configureDeviceState();
 	void deviceManipulation();
 

@@ -104,10 +104,6 @@ void Controller::menuSystem()
 					// Change Device Status
 					changeDeviceStatus();
 					break;
-				case DeviceMenuChoice::Configure_Device_Intensity:
-					// Configure Device Intensity
-					configureDeviceIntensity();
-					break;
 				case DeviceMenuChoice::Back:
 					// Back
 
@@ -218,7 +214,6 @@ void Controller::viewDeviceStatus()
 		view.printMessage("[" + std::to_string(i + 1) + "] ");
 		view.printMessage(devices.at(i)->getName());
 		view.printMessage(" = " + (stateString.at(devices.at(i)->getState())));
-		view.printMessage(" - Intensity: " + std::to_string(devices.at(i)->getIntensity()) + "\n");
 	}
 
 	backMenu();
@@ -248,45 +243,6 @@ void Controller::changeDeviceStatus()
 	else if (devices.at(menuSelection)->getState() == state::off) devices.at(menuSelection)->turnDeviceOn();
 
 	// TODO: Change Device Status
-
-	backMenu();
-}
-
-
-void Controller::configureDeviceIntensity()
-{
-	system("CLS");
-	view.printProgramHeader();
-	view.printConfigureDeviceIntensityHeader();
-
-	// TODO: Configure Device Intensity
-	for (int i = 0; i < devices.size(); i++)
-	{
-		view.printMessage("[" + std::to_string(i + 1) + "] ");
-		view.printMessage(devices.at(i)->getName() + "\n");
-	}
-
-	std::cout << std::endl;
-
-	int menuSelection = 0;
-	menuSelection = validation.integerValidation(4);
-	menuSelection--;
-
-	if (devices.at(menuSelection)->getState() == state::on)
-	{
-		view.printMessage("Enter new intensity for the " + devices.at(menuSelection)->getName() + "\n> ");
-		int newIntensity = 0;
-		newIntensity = validation.integerValidation(100);
-
-		devices.at(menuSelection)->setIntensity(newIntensity);
-
-		view.printMessage("\nIntensity has been updated successfully.\n\n");
-	}
-	else if (devices.at(menuSelection)->getState() == state::off)
-	{
-		view.printMessage("Cannot change intensity for " + devices.at(menuSelection)->getName() + " as it is turned off.\n\n");
-	}
-
 
 	backMenu();
 }
@@ -404,35 +360,71 @@ void Controller::readSensorData(int sampleSize)
 
 void Controller::checkHistoricData()
 {
-	uint8_t dateDay;
+	uint16_t dateDay;
 	view.printDateDay();
 	dateDay = validation.integerValidation(31);
 
-	uint8_t dateMonth;
+	uint16_t dateMonth;
 	view.printDateMonth();
 	dateMonth = validation.integerValidation(12);
 
-	uint8_t dateYear;
+	uint16_t dateYear;
 	view.printDateYear();
 	dateYear = validation.integerValidation(4);
 
+	switch (dateYear)
+	{
+	case 1:
+		dateYear = 2018;
+		break;
+	case 2:
+		dateYear = 2019;
+		break;
+	case 3:
+		dateYear = 2020;
+		break;
+	case 4:
+		dateYear = 2021;
+		break;
+	}
+
 	std::string fullDate = std::to_string(dateDay) + "/" + std::to_string(dateMonth) + "/" + std::to_string(dateYear);
+
+	system("CLS");
+	view.printProgramHeader();
+	view.printMessage("Date: " + fullDate + "\n");
+	view.printHistoricDataHeader();
 
 	std::ifstream readFile("historicData.txt", std::ios::in);
 	if (readFile.is_open())
 	{
 		std::string temp;
-		// Check if fullDate is anywhere in the file
+		uint16_t readingCount = 0;
+		bool foundAReading = false;
+
 		while (readFile)
 		{
-			std::getline(readFile, temp);
+			// Works for now, try and fix
+			readFile >> temp;
+
+			// Check if fullDate is anywhere in the file
 			if (temp == fullDate)
 			{
-				// Save the data in memory
-				std::getline(readFile, temp);
+				// At least one reading has been found
+				foundAReading = true;
 
-				// Print the data to the console
-				view.printMessage(temp + "\n");
+				// Keeping count of the readings that were found
+				readingCount++;
+
+				// Save the data in memory
+				std::string temperature;
+				std::string luxLevel;
+				std::string humidity;
+				readFile >> temperature;
+				readFile >> luxLevel;
+				readFile >> humidity;
+
+				view.printHistoricData(readingCount, temperature, luxLevel, humidity);
 			}
 			else
 			{
@@ -440,10 +432,17 @@ void Controller::checkHistoricData()
 				std::getline(readFile, temp);
 			}
 		}
+
+		if (foundAReading == false)
+		{
+			view.printMessage("No readings for the specified date.\n");
+		}
 	}
 	else
 	{
 		view.printMessage("ERROR: Cannot open file.");
 	}
+
+	backMenu();
 }
 

@@ -2,7 +2,7 @@
 #include "Controller.h"
 
 
-Model::Model() noexcept
+Model::Model()
 {
 	retrieveData();
 }

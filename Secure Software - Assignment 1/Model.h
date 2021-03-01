@@ -20,7 +20,7 @@ private:
 	int samplePeriod = 500;
 
 public:
-	Model() noexcept;
+	Model();
 
 	// Temp Sensor
 	int getTemp() const;

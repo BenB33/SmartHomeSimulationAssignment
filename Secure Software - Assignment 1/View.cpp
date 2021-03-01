@@ -46,12 +46,11 @@ DeviceMenuChoice View::deviceMenu()
 	printProgramHeader();
 	std::cout << "Device Menu\n-----------\n\n";
 	std::cout << "[1] View Device Status'\n";
-	std::cout << "[2] Change Device Status'\n";
-	std::cout << "[3] Configure Device Intensity\n";
-	std::cout << "[4] Back...\n\n";
+	std::cout << "[2] Change Device Status Manually\n";
+	std::cout << "[3] Back...\n\n";
 	std::cout << "> ";
 
-	menuSelection = Validation::integerValidation(4);
+	menuSelection = Validation::integerValidation(3);
 	menuSelection--;
 
 	return static_cast<DeviceMenuChoice>(menuSelection);
@@ -158,4 +157,23 @@ void View::printDateYear()
 	std::cout << "[3] 2020\n";
 	std::cout << "[4] 2021\n";
 	std::cout << "> ";
+}
+
+void View::printHistoricDataHeader()
+{
+	std::cout << "------------------------------------------------------------------\n";
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Reading]";
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Temerature]";
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Lex Level]";
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Humidity]" << std::endl;
+	std::cout << "------------------------------------------------------------------\n";
+}
+
+void View::printHistoricData(uint16_t readingCount, std::string temperature, std::string luxLevel, std::string humidity)
+{
+	std::cout << std::left << std::setfill(' ') << std::setw(4) << " ";
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << readingCount;
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << temperature;
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << luxLevel;
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << humidity << std::endl;
 }
