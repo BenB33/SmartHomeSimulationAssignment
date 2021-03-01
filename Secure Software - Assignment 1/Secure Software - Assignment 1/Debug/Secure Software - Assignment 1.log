@@ -1,0 +1,24 @@
+﻿  Controller.cpp
+C:\Users\Ben\Desktop\Secure Software - Assignment 1\Secure Software - Assignment 1\Controller.cpp(214,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ben\Desktop\Secure Software - Assignment 1\Secure Software - Assignment 1\Controller.cpp(236,19): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ben\Desktop\Secure Software - Assignment 1\Secure Software - Assignment 1\Controller.cpp(265,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ben\Desktop\Secure Software - Assignment 1\Secure Software - Assignment 1\Controller.cpp(361,64): warning C4244: 'argument': conversion from 'int' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\Ben\Desktop\Secure Software - Assignment 1\Secure Software - Assignment 1\Controller.cpp(362,62): warning C4244: 'argument': conversion from 'int' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\Ben\Desktop\Secure Software - Assignment 1\Secure Software - Assignment 1\Controller.cpp(363,69): warning C4244: 'argument': conversion from 'int' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\Ben\Desktop\Secure Software - Assignment 1\Secure Software - Assignment 1\Controller.cpp(369,33): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Ben\Desktop\Secure Software - Assignment 1\Secure Software - Assignment 1\Controller.cpp(370,31): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Ben\Desktop\Secure Software - Assignment 1\Secure Software - Assignment 1\Controller.cpp(371,38): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+LINK : warning LNK4044: unrecognized option '/ASAFESEH'; ignored
+  Secure Software - Assignment 1.vcxproj -> C:\Users\Ben\Desktop\Secure Software - Assignment 1\Debug\Secure Software - Assignment 1.exe

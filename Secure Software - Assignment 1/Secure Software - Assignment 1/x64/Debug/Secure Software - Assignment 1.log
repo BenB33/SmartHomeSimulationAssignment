@@ -1,0 +1,15 @@
+﻿  Authenticator.cpp
+  Controller.cpp
+  HumiditySensor.cpp
+C:\Users\GCO\source\repos\Secure Software - Assignment 1\Secure Software - Assignment 1\HumiditySensor.h(6,7): error C2039: 'string': is not a member of 'std'
+C:\Users\GCO\source\repos\Secure Software - Assignment 1\Secure Software - Assignment 1\predefined C++ types (compiler internal)(340): message : see declaration of 'std'
+C:\Users\GCO\source\repos\Secure Software - Assignment 1\Secure Software - Assignment 1\HumiditySensor.h(6,19): error C3646: 'name': unknown override specifier
+C:\Users\GCO\source\repos\Secure Software - Assignment 1\Secure Software - Assignment 1\HumiditySensor.h(6,19): error C2059: syntax error: '='
+C:\Users\GCO\source\repos\Secure Software - Assignment 1\Secure Software - Assignment 1\HumiditySensor.h(6,38): error C2238: unexpected token(s) preceding ';'
+  Light.cpp
+  Model.cpp
+  View.cpp
+C:\Users\GCO\source\repos\Secure Software - Assignment 1\Secure Software - Assignment 1\View.cpp(18,30): error C2039: 'getName': is not a member of 'Model'
+C:\Users\GCO\source\repos\Secure Software - Assignment 1\Secure Software - Assignment 1\Model.h(7): message : see declaration of 'Model'
+  main.cpp
+  Generating Code...
