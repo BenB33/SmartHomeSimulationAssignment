@@ -7,7 +7,6 @@ class Light : public Device
 {
 private:
 	std::string name = "Light";
-	int intensity = 0;
 	state currentLightState = state::off;
 
 public:
@@ -16,7 +15,5 @@ public:
 	void turnDeviceOn() override;
 	void turnDeviceOff() override;
 
-	int getIntensity() noexcept override;
-	void setIntensity(int newIntensity) override;
 	~Light() override = default;
 };

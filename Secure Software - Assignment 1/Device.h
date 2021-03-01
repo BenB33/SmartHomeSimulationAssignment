@@ -10,7 +10,5 @@ public:
 	virtual state getState() = 0;
 	virtual void turnDeviceOn() = 0;
 	virtual void turnDeviceOff() = 0;
-	virtual int getIntensity() = 0;
-	virtual void setIntensity(int newIntensity) = 0;
 	virtual ~Device() = default;
 };
