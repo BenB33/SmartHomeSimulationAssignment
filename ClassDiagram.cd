@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Validation">
+    <Position X="17" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Validation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AirConditioning" Collapsed="true">
+    <Position X="2.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAAAAAAAAAAAAAAAAAAAAAAAAABECAAAAQAEAAAAAAA=</HashCode>
+      <FileName>AirConditioning.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dehumidifier" Collapsed="true">
+    <Position X="5.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAAAAAAAAAAAAAAAAAAAAAAAAARECAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Dehumidifier.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Heating" Collapsed="true">
+    <Position X="4" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAIAAAAAAAAAAAAABAAAAAAAAABECAAAAAAEAAAEAAA=</HashCode>
+      <FileName>Heating.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Light" Collapsed="true">
+    <Position X="0.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAAAAAAAAAAAAAAAAAAAAAAAAABFCAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Light.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Controller">
+    <Position X="19.75" Y="3.75" Width="2.5" />
+    <AssociationLine Name="model" Type="Model" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="19.75" Y="5.403" />
+        <Point X="16.938" Y="5.403" />
+        <Point X="16.938" Y="6.75" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="view" Type="View" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="22.25" Y="5.403" />
+        <Point X="25.812" Y="5.403" />
+        <Point X="25.812" Y="6.75" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ABBAIAAAAAAAAAAAAAAAAAigBAAAAAAAUQAAAAAIExA=</HashCode>
+      <FileName>Controller.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="model" />
+      <Field Name="view" />
+      <Field Name="user" />
+      <Field Name="validation" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Model">
+    <Position X="16" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAACAAACAAAIAAIACAAAgAAIAAAMAIBIAAwEAAAAAIA=</HashCode>
+      <FileName>Model.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="View">
+    <Position X="24.25" Y="6.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAIAAAABAAAAAAAAAACAIAAMIBgA=</HashCode>
+      <FileName>View.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuthenticationInfo">
+    <Position X="9.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAQAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAQE=</HashCode>
+      <FileName>AuthenticationInfo.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Authenticator">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAIAQAAAAAAAAA=</HashCode>
+      <FileName>Authenticator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProofOfID" Collapsed="true">
+    <Position X="10.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAACAAAAAAAAAAAAAACAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>ProofOfID.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="User">
+    <Position X="20.25" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEQAAAAAAAAAAAAAAEQAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>User.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="MainMenuChoice">
+    <Position X="26" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAQAAAAAAA=</HashCode>
+      <FileName>Choice.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DeviceMenuChoice">
+    <Position X="23.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAACAAAQAAAA=</HashCode>
+      <FileName>Choice.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SensorMenuChoice">
+    <Position X="27.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAACAAAAAAAAAAAAAAAAAAAAIAAAAAAACAAAA=</HashCode>
+      <FileName>Choice.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
