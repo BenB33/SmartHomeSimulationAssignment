@@ -7,11 +7,11 @@ uint16_t Validation::integerValidation(uint16_t limit)
     uint16_t input = 0;
     std::cin >> input;
 
-    while (!std::cin.good() || input < 0 || input > limit)
+    while (!std::cin.good() || input < 1 || input > limit)
     {
-        if (input < 0 || input > limit)
+        if (input < 1 || input > limit)
         {
-            std::cout << "Please enter a value no larger than " << limit << " and no smaller than 0.\n> ";
+            std::cout << "Please enter a value no larger than " << limit << " and no smaller than 1.\n> ";
         }
         else
         {
@@ -33,4 +33,4 @@ uint16_t Validation::integerValidation(uint16_t limit)
 std::string Validation::stringValidation()
 {
     return "piss";
-}
+};

@@ -9,6 +9,7 @@
 #include <memory>
 #include <thread>
 #include <random>
+#include <fstream>
 
 
 Controller::Controller()
@@ -28,11 +29,11 @@ void Controller::launch()
 
 	// Initiate Light sensor
 	std::cout << "[LOG] Initiate Light Sensor\n\n";
-	
+
 
 	// Initiate Temperature Sensor
 	std::cout << "[LOG] Initiate Temp Sensor\n\n";
-	
+
 
 	// Initiate Humidity Sensor
 	std::cout << "[LOG] Initiate Humidity Sensor\n\n";
@@ -50,36 +51,7 @@ void Controller::launch()
 
 void Controller::runAutonomously()
 {
-	int time = 0;
-
-	int temp = model.getTemp();
-	int luxLevel = model.getLux();
-	int humidity = model.getHumidity();
-
-	const int sampleSize = inputSampleSize();
-
-	system("CLS");
-	view.printSensorDetailsHeader(model);
-
-	std::default_random_engine gen;
-	std::normal_distribution<float> tempDistribution(temp, 4.0);
-	std::normal_distribution<float> luxDistribution(luxLevel, 40.0);
-	std::normal_distribution<float> humidDistribution(humidity, 20.0);
-
-	for (int i = 0; i < sampleSize; i++)
-	{
-		time = i * 10; // Time is in 10 minute intervals
-
-		temp = tempDistribution(gen);
-		luxLevel = luxDistribution(gen);
-		humidity = humidDistribution(gen);
-
-		// configureDevices(); Checks if sensor data is in certain bounds, then changes device status when needed
-
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-
-		view.displaySensorData(time, temp, humidity, luxLevel, "On", "Off", "Off", "On");
-	}
+	// Complete read data first
 }
 
 void Controller::menuSystem()
@@ -94,7 +66,6 @@ void Controller::menuSystem()
 		DeviceMenuChoice deviceChoice = DeviceMenuChoice::View_Device_Status;
 		SensorMenuChoice sensorChoice = SensorMenuChoice::View_Sensor_List;
 
-
 		mainChoice = view.printMainMenu();
 
 		switch (mainChoice)
@@ -102,7 +73,6 @@ void Controller::menuSystem()
 		case MainMenuChoice::Login:
 			// TODO: Login System
 			login();
-
 			backMenu();
 			break;
 		case MainMenuChoice::Device_Menu:
@@ -155,21 +125,24 @@ void Controller::menuSystem()
 			{
 			case SensorMenuChoice::View_Sensor_List:
 				// View Sensor List
-				
+
+				// TODO: Sensor List
 
 				break;
 			case SensorMenuChoice::Read_Sensor_Data:
 				// Read Sensor Data
-				readSensorData();
+				readSensorData(inputSampleSize());
 				backMenu();
 				break;
 			case SensorMenuChoice::Back:
 				// Back
-
-
 				break;
 			}
+			break;
 
+		case MainMenuChoice::Historic_Data:
+			// Historic Data
+			checkHistoricData();
 			break;
 		case MainMenuChoice::Exit:
 			break;
@@ -220,9 +193,9 @@ void Controller::backMenu()
 
 int Controller::inputSampleSize()
 {
-	int sampleSize;
+	uint16_t sampleSize;
 	view.printMessage("Input required sample size.\n> ");
-	std::cin >> sampleSize;
+	sampleSize = validation.integerValidation(std::numeric_limits<uint16_t>::max());
 
 	return sampleSize;
 }
@@ -244,11 +217,9 @@ void Controller::viewDeviceStatus()
 	{
 		view.printMessage("[" + std::to_string(i + 1) + "] ");
 		view.printMessage(devices.at(i)->getName());
-		if (devices.at(i)->getState() == state::on) view.printMessage(" = On");
-		else if (devices.at(i)->getState() == state::off) view.printMessage(" = Off");
+		view.printMessage(" = " + (stateString.at(devices.at(i)->getState())));
 		view.printMessage(" - Intensity: " + std::to_string(devices.at(i)->getIntensity()) + "\n");
 	}
-	
 
 	backMenu();
 }
@@ -260,14 +231,13 @@ void Controller::changeDeviceStatus()
 	view.printProgramHeader();
 	view.printChangeDeviceHeader("a Device");
 
-	// TODO: Print Device List
 	for(int i = 0; i < devices.size(); i++)
 	{
 		view.printMessage("[" + std::to_string(i + 1) + "] ");
 		view.printMessage(devices.at(i)->getName() + "\n");
 	}
 
-	std::cout << std::endl;
+	view.printMessage("\n> ");
 
 	int menuSelection = 0;
 	menuSelection = validation.integerValidation(4);
@@ -322,7 +292,7 @@ void Controller::configureDeviceIntensity()
 }
 
 
-void Controller::configureDevices()
+void Controller::configureDeviceState()
 {
 	// Configuring Light Device
 	if (model.getLux() > 100 /*&& model.getLightState() == state::on*/) devices.at(0)->turnDeviceOff();
@@ -343,6 +313,50 @@ void Controller::configureDevices()
 }
 
 
+void Controller::deviceManipulation()
+{
+	// Light
+	if (devices.at(0)->getState() == state::on)
+	{
+		model.setLux(model.getLux() + 10);
+	}
+	else if (devices.at(0)->getState() == state::off)
+	{
+		model.setLux(model.getLux() - 10);
+	}
+
+	// Heating
+	if (devices.at(1)->getState() == state::on)
+	{
+		model.setTemp(model.getTemp() + 2);
+	}
+	else
+	{
+		model.setTemp(model.getTemp() - 2);
+	}
+
+	// Dehumidifier
+	if (devices.at(2)->getState() == state::on)
+	{
+		model.setHumitity(model.getHumidity() + 5);
+	}
+	else
+	{
+		model.setHumitity(model.getHumidity() - 5);
+	}
+
+	// Air Con
+	if (devices.at(3)->getState() == state::on)
+	{
+		model.setTemp(model.getTemp() - 3);
+	}
+	else
+	{
+		model.setTemp(model.getTemp() + 3);
+	}
+}
+
+
 
 /*
 	Sensor Functions
@@ -353,12 +367,12 @@ void Controller::viewSensorList()
 
 }
 
-void Controller::readSensorData()
+void Controller::readSensorData(int sampleSize)
 {
 	int time = 0;
-	const int sampleSize = inputSampleSize();
 
 	system("CLS");
+	view.printProgramHeader();
 	view.printSensorDetailsHeader(model);
 
 	std::default_random_engine gen;
@@ -374,11 +388,62 @@ void Controller::readSensorData()
 		model.setLux(luxDistribution(gen));
 		model.setHumitity(humidDistribution(gen));
 
-		configureDevices(); // Checks if sensor data is in certain bounds, then changes device status when needed
+		deviceManipulation(); // Changes the environment (Temp, etc) depending on device state (If heating is on, will gradually get hotter)
+		configureDeviceState(); // Checks if sensor data is in certain bounds, then changes device status when needed
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-		view.displaySensorData(time, model.getTemp(), model.getHumidity(), model.getLux(), stateString.at(model.getLightState()), stateString.at(model.getHeatingState()), stateString.at(model.getAirconState()), stateString.at(model.getDehumidState()));
+		view.displaySensorData(time, model.getTemp(), model.getHumidity(), model.getLux(), stateString.at(devices.at(0)->getState()), stateString.at(devices.at(1)->getState()), stateString.at(devices.at(3)->getState()), stateString.at(devices.at(2)->getState()));
+	}
+}
+
+
+/*
+	Historic Data Functions
+*/
+
+void Controller::checkHistoricData()
+{
+	uint8_t dateDay;
+	view.printDateDay();
+	dateDay = validation.integerValidation(31);
+
+	uint8_t dateMonth;
+	view.printDateMonth();
+	dateMonth = validation.integerValidation(12);
+
+	uint8_t dateYear;
+	view.printDateYear();
+	dateYear = validation.integerValidation(4);
+
+	std::string fullDate = std::to_string(dateDay) + "/" + std::to_string(dateMonth) + "/" + std::to_string(dateYear);
+
+	std::ifstream readFile("historicData.txt", std::ios::in);
+	if (readFile.is_open())
+	{
+		std::string temp;
+		// Check if fullDate is anywhere in the file
+		while (readFile)
+		{
+			std::getline(readFile, temp);
+			if (temp == fullDate)
+			{
+				// Save the data in memory
+				std::getline(readFile, temp);
+
+				// Print the data to the console
+				view.printMessage(temp + "\n");
+			}
+			else
+			{
+				// Skipping the line
+				std::getline(readFile, temp);
+			}
+		}
+	}
+	else
+	{
+		view.printMessage("ERROR: Cannot open file.");
 	}
 }
 

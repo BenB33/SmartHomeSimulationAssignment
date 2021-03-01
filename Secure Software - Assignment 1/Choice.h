@@ -1,6 +1,6 @@
 #pragma once
 
-enum class MainMenuChoice { Login, Device_Menu, Sensor_Menu, Exit };
+enum class MainMenuChoice { Login, Device_Menu, Sensor_Menu, Historic_Data, Exit };
 
 enum class DeviceMenuChoice { View_Device_Status, Change_Device_Status, Configure_Device_Intensity, Back };
 

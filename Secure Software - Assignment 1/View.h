@@ -19,6 +19,10 @@ public:
 	void printChangeDeviceHeader(std::string deviceName);
 	void printConfigureDeviceIntensityHeader();
 
+	void printDateDay();
+	void printDateMonth();
+	void printDateYear();
+
 	MainMenuChoice printMainMenu();
 	DeviceMenuChoice deviceMenu();
 	SensorMenuChoice sensorMenu();

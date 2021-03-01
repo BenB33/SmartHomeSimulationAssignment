@@ -50,38 +50,6 @@ void Model::setSamplePeriod(const int newSamplePeriod) noexcept
 	samplePeriod = newSamplePeriod;
 }
 
-Controller controller;
-
-// Device State Getters
-state Model::getAirconState()
-{
-	// TODO: Get Device States
-	
-	return controller.devices.at(3)->getState();
-}
-
-// Device State Getters
-state Model::getLightState()
-{
-	// TODO: Get Device States
-	return controller.devices.at(0)->getState();
-}
-
-// Device State Getters
-state Model::getHeatingState()
-{
-	// TODO: Get Device States
-	return controller.devices.at(1)->getState();
-}
-
-// Device State Getters
-state Model::getDehumidState()
-{
-	// TODO: Get Device States
-	return controller.devices.at(2)->getState();
-}
-
-
 void Model::retrieveData()
 {
 	// Retrieve Data from File

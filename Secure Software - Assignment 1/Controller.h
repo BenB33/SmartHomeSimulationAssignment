@@ -28,9 +28,9 @@ private:
 
 	//std::vector<std::shared_ptr<Device>> devices = { std::make_shared<Light>(), std::make_shared<Heating>(), std::make_shared<Dehumidifier>(), std::make_shared<AirConditioning>() };
 	//std::vector<Device*> devices = { new Light, new Heating, new Dehumidifier, new AirConditioning };
+	const std::vector<std::shared_ptr<Device>> devices = { std::make_shared<Light>(), std::make_shared<Heating>(), std::make_shared<Dehumidifier>(), std::make_shared<AirConditioning>() };
 
 public:
-	std::vector<std::shared_ptr<Device>> devices = { std::make_shared<Light>(), std::make_shared<Heating>(), std::make_shared<Dehumidifier>(), std::make_shared<AirConditioning>() };
 
 	Controller();
 
@@ -43,11 +43,14 @@ public:
 	void viewDeviceStatus();
 	void changeDeviceStatus();
 	void configureDeviceIntensity();
-	void configureDevices();
+	void configureDeviceState();
+	void deviceManipulation();
 
 	void viewSensorList();
-	void readSensorData(); // Use a controlActuator() method to check bounds of sensor data and toggle device states
+	void readSensorData(int sampleSize); // Use a controlActuator() method to check bounds of sensor data and toggle device states
 
+
+	void checkHistoricData();
 
 	int inputSampleSize();
 

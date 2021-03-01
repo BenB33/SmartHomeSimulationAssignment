@@ -13,7 +13,6 @@ private:
 	LightSensor	lightSensor;
 	HumiditySensor humiditySensor;
 
-
 	int temperature = 0;	// Temperature used for heating
 	int luxLevel = 0;	// Lux used for lights
 	int humidity = 0; // Humitity used for...
@@ -26,18 +25,14 @@ public:
 	// Temp Sensor
 	int getTemp() const;
 	void setTemp(const int newTemp);
-	state getHeatingState();
-	state getAirconState();
 
 	// Light Sensor
 	int getLux() const;
 	void setLux(const int newLux);
-	state getLightState();
 
 	// Humidity Sensor
 	int getHumidity() const;
 	void setHumitity(const int newHumidity);
-	state getDehumidState();
 
 	// Sample Period
 	int getSamplePeriod() const noexcept;
