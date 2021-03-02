@@ -24,6 +24,7 @@
     <ClCompile Include="Authenticator.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Dehumidifier.cpp" />
+    <ClCompile Include="Encryption.cpp" />
     <ClCompile Include="Heating.cpp" />
     <ClCompile Include="HumiditySensor.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Dehumidifier.h" />
     <ClInclude Include="Device.h" />
+    <ClInclude Include="Encryption.h" />
     <ClInclude Include="Heating.h" />
     <ClInclude Include="HumiditySensor.h" />
     <ClInclude Include="Light.h" />
@@ -59,6 +61,10 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="historicData.txt" />
+    <Text Include="userList.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -136,14 +142,15 @@
       <ConformanceMode>true</ConformanceMode>
       <ControlFlowGuard>Guard</ControlFlowGuard>
       <SmallerTypeCheck>true</SmallerTypeCheck>
-      <AdditionalOptions>/Gs %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Gs /wd5045 /experimental:external /external:anglebrackets /external:W0 %(AdditionalOptions)</AdditionalOptions>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <TreatWarningAsError>false</TreatWarningAsError>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>/ASAFESEH %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/SAFESEH %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -157,16 +164,17 @@
       <ControlFlowGuard>Guard</ControlFlowGuard>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <SmallerTypeCheck>true</SmallerTypeCheck>
-      <AdditionalOptions>/Gs %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Gs /wd5045 /experimental:external /external:anglebrackets /external:W0 %(AdditionalOptions)</AdditionalOptions>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <TreatWarningAsError>false</TreatWarningAsError>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>/ASAFESEH %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/SAFESEH %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

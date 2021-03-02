@@ -26,7 +26,7 @@ MainMenuChoice View::printMainMenu()
 	int menuSelection = 0;
 	printProgramHeader();
 	std::cout << "Autonomous Smart Home System\n----------------------------\n\n";
-	std::cout << "[1] Login\n";
+	std::cout << "[1] Login/Logout\n";
 	std::cout << "[2] Device Menu\n";
 	std::cout << "[3] Sensor Menu\n";
 	std::cout << "[4] Historic Data\n";
@@ -72,6 +72,13 @@ SensorMenuChoice View::sensorMenu()
 
 	return static_cast<SensorMenuChoice>(menuSelection);
 }
+
+
+void View::printLoginHeader()
+{
+	std::cout << "Login\n-----\n\n";
+}
+
 
 void View::printViewDeviceHeader()
 {

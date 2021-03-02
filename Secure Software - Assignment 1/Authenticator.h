@@ -1,22 +1,15 @@
 #pragma once
 
-#include "AuthenticationInfo.h"
-#include "User.h"
-#include "ProofOfID.h"
-#include "View.h"
-
 #include <string>
-#include <fstream>
+
+#include "AuthenticationInfo.h"
+#include "ProofOfID.h"
+#include "User.h"
 
 class Authenticator
 {
-private:
-	View view;
-
-	std::string encryptDecrypt(std::string toEncrypt);
-
 public:
-
+	// Authenticate user given the username and password, 
+	// returns the proofOfID encrypted token.
 	ProofOfID authenticateUser(User& user);
-	void initaliseLoginInfo(User& user);
 };

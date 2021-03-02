@@ -2,29 +2,14 @@
 
 #include <iostream>
 
-//User::User(std::string newUser)
-//{
-//	username = newUser;
-//
-//	Trust t;
-//	trustLevel = t.getTrustLevel(username);
-//}
-//
-//User::~User()
-//{
-//	username = "guest";
-//	trustLevel = TrustLevel::low;
-//}
-
-
 // Getter and Setter for Username
 std::string User::getUsername() const
 {
 	return username;
 }
-void User::setUsername()
+void User::setUsername(std::string username)
 {
-	std::cin >> username;
+	this->username = username;
 }
 
 

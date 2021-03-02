@@ -11,6 +11,8 @@ public:
 
 	void printProgramHeader();
 
+	void printLoginHeader();
+
 	void printSensorDetailsHeader(const Model& model) const;
 	void displaySensorData(int minute, int temp, int humid, int lux, 
 						   std::string lightState, std::string heatingState, std::string airconState, std::string dehumidState);

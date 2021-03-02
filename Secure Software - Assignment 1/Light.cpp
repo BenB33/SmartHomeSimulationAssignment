@@ -17,11 +17,11 @@ state Light::getState() noexcept
 void Light::turnDeviceOn()
 {
 	currentLightState = state::on;
-	//std::cout << "The light has been turned on.\nIntensity: " << intensity << std::endl;
+	std::cout << "The light has been turned on." << std::endl;
 }
 
 void Light::turnDeviceOff()
 {
 	currentLightState = state::off;
-	//std::cout << "The light has been turned off." << std::endl;
+	std::cout << "The light has been turned off." << std::endl;
 }

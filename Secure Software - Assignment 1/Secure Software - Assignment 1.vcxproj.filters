@@ -87,6 +87,9 @@
     <ClCompile Include="HumiditySensor.cpp">
       <Filter>Source Files\Sensors</Filter>
     </ClCompile>
+    <ClCompile Include="Encryption.cpp">
+      <Filter>Source Files\Authenticator Pattern</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AirConditioning.h">
@@ -143,9 +146,20 @@
     <ClInclude Include="State.h">
       <Filter>Header Files\Devices</Filter>
     </ClInclude>
+    <ClInclude Include="Encryption.h">
+      <Filter>Header Files\Authenticator Pattern</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="historicData.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="userList.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

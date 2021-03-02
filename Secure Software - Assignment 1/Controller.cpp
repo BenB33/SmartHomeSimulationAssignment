@@ -10,6 +10,7 @@
 #include <thread>
 #include <random>
 #include <fstream>
+#include <sstream>
 
 
 Controller::Controller()
@@ -73,7 +74,6 @@ void Controller::menuSystem()
 		case MainMenuChoice::Login:
 			// TODO: Login System
 			login();
-			backMenu();
 			break;
 		case MainMenuChoice::Device_Menu:
 			// Device Menu
@@ -147,35 +147,60 @@ void Controller::menuSystem()
 }
 
 
-
-
 void Controller::login()
 {
 	system("CLS");
 	view.printProgramHeader();
+
 	// If user is already logged in, display message
-	if (isLoggedIn == true) view.printMessage("Already logged in as " + user.getUsername() + ".\n\n"); 
+	if (isLoggedIn == true)
+	{
+		view.printMessage("Already logged in as " + user.getUsername() + ".\n\n");
+		view.printMessage("[1] Logout\n[2] Back...\n>");
+		uint8_t logoutMenuIndex = 0;
+
+		logoutMenuIndex = validation.integerValidation(2);
+
+		switch (logoutMenuIndex)
+		{
+		case 1:
+			 // Logout
+			user.setProofOfID("");
+			user.setUsername("");
+			isLoggedIn = false;
+			view.printMessage("\n\nLogged out successfully.\n");
+			backMenu();
+		case 2:
+			// Back...
+			return;
+		default:
+			break;
+		}
+	}
 
 	while (!isLoggedIn)
 	{
-		view.printMessage("Enter your username: ");
-		user.setUsername();
+		view.printLoginHeader();
+		view.printMessage("Enter your username\n> ");
+		std::string username;
+		std::cin >> username;
+		user.setUsername(username);
 
 		proof = auth.authenticateUser(user);
 
 		if (proof.getProofID() == "")
 		{
 			system("CLS");
-			view.printMessage("Login credentials incorrect. Please try again...");
+			view.printMessage("Login Error\n-----------\n\nLogin credentials incorrect. Please try again...");
 		}
 		else
 		{
 			isLoggedIn = true;
-			view.printMessage("Successfully logged in!");
-			view.printMessage(user.getProofOfID());
+			backMenu();
 		}
 	}
 }
+
 
 void Controller::backMenu()
 {
@@ -209,11 +234,11 @@ void Controller::viewDeviceStatus()
 	view.printViewDeviceHeader();
 
 	// TODO: Get device status'
-	for (int i = 0; i < devices.size(); i++)
+	for (uint16_t i = 0; i < devices.size(); i++)
 	{
 		view.printMessage("[" + std::to_string(i + 1) + "] ");
 		view.printMessage(devices.at(i)->getName());
-		view.printMessage(" = " + (stateString.at(devices.at(i)->getState())));
+		view.printMessage(" = " + (stateString.at(devices.at(i)->getState())) + "\n");
 	}
 
 	backMenu();
@@ -226,7 +251,7 @@ void Controller::changeDeviceStatus()
 	view.printProgramHeader();
 	view.printChangeDeviceHeader("a Device");
 
-	for(int i = 0; i < devices.size(); i++)
+	for(uint16_t i = 0; i < devices.size(); i++)
 	{
 		view.printMessage("[" + std::to_string(i + 1) + "] ");
 		view.printMessage(devices.at(i)->getName() + "\n");
@@ -234,7 +259,7 @@ void Controller::changeDeviceStatus()
 
 	view.printMessage("\n> ");
 
-	int menuSelection = 0;
+	uint16_t menuSelection = 0;
 	menuSelection = validation.integerValidation(4);
 	menuSelection--;
 
@@ -251,21 +276,21 @@ void Controller::changeDeviceStatus()
 void Controller::configureDeviceState()
 {
 	// Configuring Light Device
-	if (model.getLux() > 100 /*&& model.getLightState() == state::on*/) devices.at(0)->turnDeviceOff();
-	else if (model.getLux() <= 100 /*&& model.getLightState() == state::off*/) devices.at(0)->turnDeviceOn();
+	if (model.getLux() > 100 && devices.at(0)->getState() == state::on) devices.at(0)->turnDeviceOff();
+	else if (model.getLux() <= 100 && devices.at(0)->getState() == state::off) devices.at(0)->turnDeviceOn();
 
 
 	// Configuring Heating/Aircon
-	if (model.getTemp() > 15 /*&& model.getHeatingState() == state::on*/) devices.at(1)->turnDeviceOff();
-	else if (model.getTemp() <= 15 /*&& model.getHeatingState() == state::off*/) devices.at(1)->turnDeviceOn();
+	if (model.getTemp() > 15 && devices.at(1)->getState() == state::on) devices.at(1)->turnDeviceOff();
+	else if (model.getTemp() <= 15 && devices.at(1)->getState() == state::off) devices.at(1)->turnDeviceOn();
 
-	if (model.getTemp() > 20 /*&& model.getAirconState() == state::off*/) devices.at(3)->turnDeviceOn();
-	else if (model.getTemp() <= 20 /*&& model.getAirconState() == state::on*/) devices.at(3)->turnDeviceOff();
+	if (model.getTemp() > 20 && devices.at(3)->getState() == state::off) devices.at(3)->turnDeviceOn();
+	else if (model.getTemp() <= 20 && devices.at(3)->getState() == state::on) devices.at(3)->turnDeviceOff();
 
 
 	// Configuring Dehumidifier
-	if (model.getHumidity() > 65 /*&& model.getDehumidState() == state::off*/) devices.at(2)->turnDeviceOn();
-	else if (model.getHumidity() <= 65 /*&& model.getDehumidState() == state::on*/) devices.at(2)->turnDeviceOff();
+	if (model.getHumidity() > 65 && devices.at(2)->getState() == state::off) devices.at(2)->turnDeviceOn();
+	else if (model.getHumidity() <= 65 && devices.at(2)->getState() == state::on) devices.at(2)->turnDeviceOff();
 }
 
 
@@ -333,7 +358,7 @@ void Controller::readSensorData(int sampleSize)
 
 	std::default_random_engine gen;
 	std::normal_distribution<float> tempDistribution(model.getTemp(),4.0);
-	std::normal_distribution<float> luxDistribution(model.getLux(),40.0);
+	std::normal_distribution<float> luxDistribution(model.getLux(),50.0);
 	std::normal_distribution<float> humidDistribution(model.getHumidity(),20.0);
 
 	for (int i = 0; i < sampleSize; i++)
@@ -360,18 +385,22 @@ void Controller::readSensorData(int sampleSize)
 
 void Controller::checkHistoricData()
 {
+	// User input for day
 	uint16_t dateDay;
 	view.printDateDay();
 	dateDay = validation.integerValidation(31);
 
+	// User input for month
 	uint16_t dateMonth;
 	view.printDateMonth();
 	dateMonth = validation.integerValidation(12);
 
+	// User input for year
 	uint16_t dateYear;
 	view.printDateYear();
 	dateYear = validation.integerValidation(4);
 
+	// Converting year selection index into actual year string
 	switch (dateYear)
 	{
 	case 1:
@@ -386,62 +415,79 @@ void Controller::checkHistoricData()
 	case 4:
 		dateYear = 2021;
 		break;
+	default:
+		break;
 	}
 
+	// Formatting the date
 	std::string fullDate = std::to_string(dateDay) + "/" + std::to_string(dateMonth) + "/" + std::to_string(dateYear);
 
+	// Preparing the screen to fit program theme
 	system("CLS");
 	view.printProgramHeader();
 	view.printMessage("Date: " + fullDate + "\n");
 	view.printHistoricDataHeader();
 
+	// Initializing ifstream with exceptions
 	std::ifstream readFile("historicData.txt", std::ios::in);
+	readFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	
+
 	if (readFile.is_open())
 	{
+		// Create a temp string, count integer, and reading found boolean
 		std::string temp;
 		uint16_t readingCount = 0;
 		bool foundAReading = false;
 
-		while (readFile)
+		// Try catch block to handle exceptions
+		try 
 		{
-			// Works for now, try and fix
-			readFile >> temp;
-
-			// Check if fullDate is anywhere in the file
-			if (temp == fullDate)
+			// While the next character in the input sequence isn't the end of file, run while loop
+			while (readFile.peek() != EOF)
 			{
-				// At least one reading has been found
-				foundAReading = true;
-
-				// Keeping count of the readings that were found
-				readingCount++;
-
-				// Save the data in memory
-				std::string temperature;
-				std::string luxLevel;
-				std::string humidity;
-				readFile >> temperature;
-				readFile >> luxLevel;
-				readFile >> humidity;
-
-				view.printHistoricData(readingCount, temperature, luxLevel, humidity);
-			}
-			else
-			{
-				// Skipping the line
+				// getline grabs the date from the file
 				std::getline(readFile, temp);
-			}
-		}
 
-		if (foundAReading == false)
+				// string stream created to allow operations on the lines pulled from file
+				std::stringstream stream(temp);
+
+				// Date string created, and date is pulled from string stream
+				std::string date;
+				stream >> date;
+
+				// Check if the fullDate is anywhere in the file
+				if (date == fullDate)
+				{
+					// At least one reading has been found
+					foundAReading = true;
+
+					// Keeping count of the readings that were found to later print to console
+					readingCount++;
+
+					// Save the data from string stream to memory
+					std::string temperature;
+					std::string luxLevel;
+					std::string humidity;
+					stream >> temperature;
+					stream >> luxLevel;
+					stream >> humidity;
+
+					// Pass each of the data values to print to console using view class
+					view.printHistoricData(readingCount, temperature, luxLevel, humidity);
+				}
+			}
+			// If foundAReading boolean is false, then no readings were found for the date the user
+			// provided, print message to screen
+			if (foundAReading == false) view.printMessage("No readings for the specified date.\n");
+		} 
+		catch (std::exception ex) 
 		{
-			view.printMessage("No readings for the specified date.\n");
+			std::cerr << "ERROR: " << ex.what() << std::endl;
 		}
 	}
-	else
-	{
-		view.printMessage("ERROR: Cannot open file.");
-	}
+	else view.printMessage("ERROR: Cannot open file.");
+
 
 	backMenu();
 }

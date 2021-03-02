@@ -5,16 +5,15 @@ class User
 {
 private:
 	std::string username;
-	std::string proofOfID = "";
+	std::string proofOfID;
 
 public:
-	//User(std::string username);
-	//~User();
 
-	void setUsername();
+	// Getter and setter for username
+	void setUsername(std::string username);
 	std::string getUsername() const;
 
-
+	// Getter and setter for proof of ID
 	std::string getProofOfID();
 	void setProofOfID(std::string proofToken);
 };

@@ -15,11 +15,11 @@ state Dehumidifier::getState() noexcept
 void Dehumidifier::turnDeviceOn()
 {
 	currentDehumidifierState = state::on;
-	//std::cout << "The dehumidifier has been turned on.\nIntensity: " << intensity << std::endl;
+	std::cout << "The dehumidifier has been turned on." << std::endl;
 }
 
 void Dehumidifier::turnDeviceOff()
 {
 	currentDehumidifierState = state::off;
-	//std::cout << "The dehumidifier has been turned off." << std::endl;
+	std::cout << "The dehumidifier has been turned off." << std::endl;
 }

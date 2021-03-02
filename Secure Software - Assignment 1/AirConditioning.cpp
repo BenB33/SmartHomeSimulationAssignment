@@ -11,10 +11,10 @@ state AirConditioning::getState() noexcept
 void AirConditioning::turnDeviceOn()
 {
 	currentACState = state::on;
-	//std::cout << "The air conditioning has been turned on.\nIntensity: " << intensity << std::endl;
+	std::cout << "The air conditioning has been turned on." << std::endl;
 }
 void AirConditioning::turnDeviceOff()
 {
 	currentACState = state::off;
-	//std::cout << "The air conditioning has been turned off." << std::endl;
+	std::cout << "The air conditioning has been turned off." << std::endl;
 }

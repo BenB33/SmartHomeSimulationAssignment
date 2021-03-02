@@ -15,11 +15,11 @@ state Heating::getState() noexcept
 void Heating::turnDeviceOn()
 {
 	currentHeatingState = state::on;
-	//std::cout << "The heating has been turned on.\nIntensity: " << intensity << std::endl;
+	std::cout << "The heating has been turned on." << std::endl;
 }
 
 void Heating::turnDeviceOff()
 {
 	currentHeatingState = state::off;
-	//std::cout << "The heating has been turned off." << std::endl;
+	std::cout << "The heating has been turned off." << std::endl;
 }
