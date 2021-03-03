@@ -18,9 +18,15 @@ ProofOfID Authenticator::authenticateUser(User& user)
 	std::string password;
 	std::string token;
 
+
+
+
+
 	// User inputs their password
 	view.printMessage("\nEnter your password\n> ");
 	std::cin >> password;
+
+
 
 	// Calls function isValidUser from the AuthenticationInfo class,
 	// and passes the username and password. Either returns true or false
@@ -39,11 +45,6 @@ ProofOfID Authenticator::authenticateUser(User& user)
 		// user set proofOfID using token.
 		proofOfID = ProofOfID(token);
 		user.setProofOfID(token);
-	}
-	else
-	{
-		// If isValidUser returns false, the login credentials are invalid.
-		view.printMessage("Invalid login credentials. Please try again!");
 	}
 
 	// Return the proof of ID.

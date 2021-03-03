@@ -15,13 +15,13 @@ void Controller::launch()
 {
 	// Load logger
 	std::cout << "[LOG] Load Logger\n\n";
-	
+
 
 	// Initialize Users - When the Controller is initalized in main, Authenticator is 
 	// created, then when Authenticator is created, AuthenticationInfo is created, which
 	// initalises the US
 	std::cout << "[LOG] Initiate Users\n\n";
-	
+
 
 	// Initiate Light sensor
 	std::cout << "[LOG] Initiate Light Sensor\n\n";
@@ -33,11 +33,11 @@ void Controller::launch()
 
 	// Initiate Humidity Sensor
 	std::cout << "[LOG] Initiate Humidity Sensor\n\n";
-	
+
 
 	// Start-up complete
 	std::cout << "[LOG] Start-up Complete!!\n\n";
-	
+
 
 
 	// Display Menus
@@ -83,9 +83,17 @@ void Controller::menuSystem()
 					// View Device Status
 
 
-					if ((!proof.getProofID().empty()) && (proof.getProofID() == user.getProofOfID()))
+					if ((!proof.getProofID().empty()))
 					{
-						viewDeviceStatus();
+						if (user.getProofOfID() == " %,(/a %,(/" || user.getProofOfID() == "254%$/5a254%$/5")
+						{
+							viewDeviceStatus();
+						}
+						else
+						{
+							view.printMessage("\n\nYou are not authorised to access this content.");
+							backMenu();
+						}
 					}
 					else
 					{
@@ -186,7 +194,7 @@ void Controller::login()
 		if (proof.getProofID() == "")
 		{
 			system("CLS");
-			view.printMessage("Login Error\n-----------\n\nLogin credentials incorrect. Please try again...");
+			view.printMessage("\nLogin Error\n-----------\n\nLogin credentials incorrect. Please try again...\n\n");
 		}
 		else
 		{

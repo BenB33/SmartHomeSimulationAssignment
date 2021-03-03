@@ -5,5 +5,5 @@
 class Encryption 
 {
 public:
-	static std::string encryptDecrypt(const std::string& str);
+	static std::string encryptDecrypt(const std::string& toEncrypt);
 };

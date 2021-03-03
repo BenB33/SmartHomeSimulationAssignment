@@ -9,8 +9,6 @@
 
 AuthenticationInfo::AuthenticationInfo()
 {
-	std::cout << "It's working you fucking mongo..." << std::endl;
-	std::cin.get();
 	// Initialize an ifstream with exceptions
 	std::ifstream readFile("userList.txt", std::ios::in);
 	readFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
