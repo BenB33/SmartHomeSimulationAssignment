@@ -8,7 +8,7 @@ class AirConditioning : public Device
 {
 private:
 	std::string name = "Air Conditioning";
-	state currentACState = state::on;
+	state currentACState = state::off;
 
 public:
 	std::string getName() override;

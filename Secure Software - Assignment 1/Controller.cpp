@@ -48,6 +48,7 @@ void Controller::launch()
 void Controller::runAutonomously()
 {
 	// Complete read data first
+
 }
 
 void Controller::menuSystem()
@@ -85,7 +86,7 @@ void Controller::menuSystem()
 
 					if ((!proof.getProofID().empty()))
 					{
-						if (user.getProofOfID() == " %,(/a %,(/" || user.getProofOfID() == "254%$/5a254%$/5")
+						if (user.getUsername() == "admin" || user.getUsername() == "student")
 						{
 							viewDeviceStatus();
 						}
@@ -97,7 +98,7 @@ void Controller::menuSystem()
 					}
 					else
 					{
-						view.printMessage("\n\nYou are not authorised to access this content.");
+						view.printMessage("\n\nYou are not logged in.");
 						backMenu();
 					}
 
@@ -279,21 +280,21 @@ void Controller::changeDeviceStatus()
 void Controller::configureDeviceState()
 {
 	// Configuring Light Device
-	if (model.getLux() > 100 && devices.at(0)->getState() == state::on) devices.at(0)->turnDeviceOff();
-	else if (model.getLux() <= 100 && devices.at(0)->getState() == state::off) devices.at(0)->turnDeviceOn();
+	if (model.getLux() > 150 && devices.at(0)->getState() == state::on) devices.at(0)->turnDeviceOff();
+	else if (model.getLux() < 80 && devices.at(0)->getState() == state::off) devices.at(0)->turnDeviceOn();
 
 
 	// Configuring Heating/Aircon
-	if (model.getTemp() > 15 && devices.at(1)->getState() == state::on) devices.at(1)->turnDeviceOff();
-	else if (model.getTemp() <= 15 && devices.at(1)->getState() == state::off) devices.at(1)->turnDeviceOn();
+	if (model.getTemp() > 20 && devices.at(1)->getState() == state::on) devices.at(1)->turnDeviceOff();
+	else if (model.getTemp() < 10 && devices.at(1)->getState() == state::off) devices.at(1)->turnDeviceOn();
 
-	if (model.getTemp() > 20 && devices.at(3)->getState() == state::off) devices.at(3)->turnDeviceOn();
-	else if (model.getTemp() <= 20 && devices.at(3)->getState() == state::on) devices.at(3)->turnDeviceOff();
+	if (model.getTemp() > 25 && devices.at(3)->getState() == state::off) devices.at(3)->turnDeviceOn();
+	else if (model.getTemp() < 20 && devices.at(3)->getState() == state::on) devices.at(3)->turnDeviceOff();
 
 
 	// Configuring Dehumidifier
 	if (model.getHumidity() > 65 && devices.at(2)->getState() == state::off) devices.at(2)->turnDeviceOn();
-	else if (model.getHumidity() <= 65 && devices.at(2)->getState() == state::on) devices.at(2)->turnDeviceOff();
+	else if (model.getHumidity() < 50 && devices.at(2)->getState() == state::on) devices.at(2)->turnDeviceOff();
 }
 
 
@@ -302,41 +303,41 @@ void Controller::deviceManipulation()
 	// Light
 	if (devices.at(0)->getState() == state::on)
 	{
-		model.setLux(model.getLux() + 10);
+		model.setLux(model.getLux() + 5);
 	}
 	else if (devices.at(0)->getState() == state::off)
 	{
-		model.setLux(model.getLux() - 10);
+		model.setLux(model.getLux() - 5);
 	}
 
 	// Heating
 	if (devices.at(1)->getState() == state::on)
 	{
-		model.setTemp(model.getTemp() + 2);
+		model.setTemp(model.getTemp() + 1);
 	}
 	else
 	{
-		model.setTemp(model.getTemp() - 2);
+		model.setTemp(model.getTemp() - 1);
 	}
 
 	// Dehumidifier
 	if (devices.at(2)->getState() == state::on)
 	{
-		model.setHumitity(model.getHumidity() + 5);
+		model.setHumitity(model.getHumidity() + 3);
 	}
 	else
 	{
-		model.setHumitity(model.getHumidity() - 5);
+		model.setHumitity(model.getHumidity() - 3);
 	}
 
 	// Air Con
 	if (devices.at(3)->getState() == state::on)
 	{
-		model.setTemp(model.getTemp() - 3);
+		model.setTemp(model.getTemp() - 1);
 	}
 	else
 	{
-		model.setTemp(model.getTemp() + 3);
+		model.setTemp(model.getTemp() + 1);
 	}
 }
 
@@ -360,7 +361,7 @@ void Controller::readSensorData(int sampleSize)
 	view.printSensorDetailsHeader(model);
 
 	std::default_random_engine gen;
-	std::normal_distribution<float> tempDistribution(model.getTemp(),4.0);
+	std::normal_distribution<float> tempDistribution(model.getTemp(),6.0);
 	std::normal_distribution<float> luxDistribution(model.getLux(),50.0);
 	std::normal_distribution<float> humidDistribution(model.getHumidity(),20.0);
 
