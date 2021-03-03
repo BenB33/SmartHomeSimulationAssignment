@@ -1,38 +1,34 @@
 #pragma once
 
-#include "Light.h"
-#include "Heating.h"
 #include "AirConditioning.h"
+#include "Authenticator.h"
 #include "Dehumidifier.h"
+#include "Heating.h"
+#include "Light.h"
+#include "Validation.h"
 
 #include <vector>
-#include "View.h"
 #include "State.h"
+#include "View.h"
 
-#include "Authenticator.h"
-#include "Validation.h"
 
 class Controller
 {
 private:
-	// TEMP	
-	Model model;
-	View view;
-
-	Validation validation;
-
-	User user;
-	ProofOfID proof;
 	Authenticator auth;
+	Model model;
+	ProofOfID proof;
+	User user;
+	Validation validation;
+	View view;
+	
 	bool isLoggedIn = false;
 
-	//std::vector<std::shared_ptr<Device>> devices = { std::make_shared<Light>(), std::make_shared<Heating>(), std::make_shared<Dehumidifier>(), std::make_shared<AirConditioning>() };
-	//std::vector<Device*> devices = { new Light, new Heating, new Dehumidifier, new AirConditioning };
 	const std::vector<std::shared_ptr<Device>> devices = { std::make_shared<Light>(), std::make_shared<Heating>(), std::make_shared<Dehumidifier>(), std::make_shared<AirConditioning>() };
 
 public:
 
-	Controller();
+	Controller() = default;
 
 	void runAutonomously();
 
@@ -46,7 +42,7 @@ public:
 	void deviceManipulation();
 
 	void viewSensorList();
-	void readSensorData(int sampleSize); // Use a controlActuator() method to check bounds of sensor data and toggle device states
+	void readSensorData(int sampleSize);
 
 
 	void checkHistoricData();

@@ -1,8 +1,6 @@
 #include "Controller.h"
 #include "Device.h"
 
-
-//#include <stdlib.h>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -13,18 +11,15 @@
 #include <sstream>
 
 
-Controller::Controller()
-{
-
-}
-
 void Controller::launch()
 {
 	// Load logger
 	std::cout << "[LOG] Load Logger\n\n";
 	
 
-	// Initialize Users
+	// Initialize Users - When the Controller is initalized in main, Authenticator is 
+	// created, then when Authenticator is created, AuthenticationInfo is created, which
+	// initalises the US
 	std::cout << "[LOG] Initiate Users\n\n";
 	
 
@@ -94,7 +89,7 @@ void Controller::menuSystem()
 					}
 					else
 					{
-						view.printMessage("You are not authorised to access this content.");
+						view.printMessage("\n\nYou are not authorised to access this content.");
 						backMenu();
 					}
 
