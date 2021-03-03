@@ -3,7 +3,7 @@
 #include <ctime>
 
 #include "View.h"
-#include "Validation.h"
+
 
 
 void View::printMessage(std::string message)
@@ -23,7 +23,6 @@ void View::printProgramHeader()
 MainMenuChoice View::printMainMenu()
 {
 	system("CLS");
-	int menuSelection = 0;
 	printProgramHeader();
 	std::cout << "Autonomous Smart Home System\n----------------------------\n\n";
 	std::cout << "[1] Login/Logout\n";
@@ -33,16 +32,16 @@ MainMenuChoice View::printMainMenu()
 	std::cout << "[5] Exit\n\n";
 	std::cout << "> ";
 
-	menuSelection = Validation::integerValidation(5);
-	menuSelection--;
 
-	return static_cast<MainMenuChoice>(menuSelection);
+	int mainMenuSelection = 0;
+	mainMenuSelection = validation.integerValidation(5);
+	mainMenuSelection = validation.secureSubtract(mainMenuSelection, 1);
+	return static_cast<MainMenuChoice>(mainMenuSelection);
 }
 
 DeviceMenuChoice View::deviceMenu()
 {
 	system("CLS");
-	int menuSelection = 0;
 	printProgramHeader();
 	std::cout << "Device Menu\n-----------\n\n";
 	std::cout << "[1] View Device Status'\n";
@@ -50,16 +49,15 @@ DeviceMenuChoice View::deviceMenu()
 	std::cout << "[3] Back...\n\n";
 	std::cout << "> ";
 
-	menuSelection = Validation::integerValidation(3);
-	menuSelection--;
-
-	return static_cast<DeviceMenuChoice>(menuSelection);
+	int deviceMenuSelection = 0;
+	deviceMenuSelection = validation.integerValidation(3);
+	deviceMenuSelection = validation.secureSubtract(deviceMenuSelection, 1);
+	return static_cast<DeviceMenuChoice>(deviceMenuSelection);
 }
 
 SensorMenuChoice View::sensorMenu()
 {
 	system("CLS");
-	int menuSelection = 0;
 	printProgramHeader();
 	std::cout << "Sensor Menu\n-----------\n\n";
 	std::cout << "[1] View Sensor List\n";
@@ -67,10 +65,10 @@ SensorMenuChoice View::sensorMenu()
 	std::cout << "[3] Back...\n\n";
 	std::cout << "> ";
 
-	menuSelection = Validation::integerValidation(3);
-	menuSelection--;
-
-	return static_cast<SensorMenuChoice>(menuSelection);
+	uint16_t sensorMenuSelection = 0;
+	sensorMenuSelection = validation.integerValidation(3);
+	sensorMenuSelection = validation.secureSubtract(sensorMenuSelection, 1);
+	return static_cast<SensorMenuChoice>(sensorMenuSelection);
 }
 
 
@@ -98,7 +96,7 @@ void View::printConfigureDeviceIntensityHeader()
 }
 
 
-void View::printSensorDetailsHeader(const Model& model) const
+void View::printSensorDetailsHeader() const
 {
 	std::cout << "-----------------------------------------------------------------------------------------------------------\n";
 	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Minute]";
@@ -122,6 +120,16 @@ void View::displaySensorData(int minute, int temp, int humid, int lux, std::stri
 	std::cout << std::left << std::setfill(' ') << std::setw(13) << lightState;
 	std::cout << std::left << std::setfill(' ') << std::setw(13) << humid;
 	std::cout << std::left << std::setfill(' ') << std::setw(13) << dehumidState << std::endl;
+}
+
+void View::printSensorList()
+{
+	system("CLS");
+	printProgramHeader();
+	std::cout << "Sensor List\n" << "-----------\n\n";
+	std::cout << "[1] Light Sensor\n";
+	std::cout << "[2] Temperature Sensor\n";
+	std::cout << "[3] Humidity Sensor\n";
 }
 
 

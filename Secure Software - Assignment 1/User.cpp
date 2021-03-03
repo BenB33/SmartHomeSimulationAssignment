@@ -7,9 +7,9 @@ std::string User::getUsername() const
 {
 	return username;
 }
-void User::setUsername(std::string username)
+void User::setUsername(std::string passedUsername)
 {
-	this->username = username;
+	username = passedUsername;
 }
 
 

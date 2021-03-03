@@ -24,7 +24,28 @@ uint16_t Validation::integerValidation(uint16_t limit)
     return input;
 }
 
-std::string Validation::stringValidation()
-{
-    return "piss";
-};
+
+uint16_t Validation::secureAddition(unsigned int ui_a, unsigned int ui_b) {
+    unsigned int usum = 0;
+    if (UINT_MAX - ui_a < ui_b) {
+        std::cerr << "\nERROR: Integer Wrap...\n";
+    }
+    else {
+        usum = ui_a + ui_b;
+    }
+
+    return usum;
+}
+
+
+uint16_t Validation::secureSubtract(unsigned int ui_a, unsigned int ui_b) {
+    unsigned int udiff = 0;
+    if (ui_a < ui_b) {
+        std::cerr << "\nERROR: Integer Wrap...\n";
+    }
+    else {
+        udiff = ui_a - ui_b;
+    }
+
+    return udiff;
+}

@@ -2,18 +2,23 @@
 #include <string>
 #include "Model.h"
 #include "Choice.h"
+#include "Validation.h"
+
 
 class View
 {
+private:
+	Validation validation;
+
 public:
 	void printMessage(std::string message);
-	void viewDeviceList();
 
 	void printProgramHeader();
 
 	void printLoginHeader();
 
-	void printSensorDetailsHeader(const Model& model) const;
+	void printSensorList();
+	void printSensorDetailsHeader() const;
 	void displaySensorData(int minute, int temp, int humid, int lux, 
 						   std::string lightState, std::string heatingState, std::string airconState, std::string dehumidState);
 

@@ -29,8 +29,8 @@ private:
 public:
 
 	Controller() = default;
-
-	void runAutonomously();
+	Controller(const Controller&) = delete;
+	Controller& operator=(const Controller&) = delete;
 
 	void launch();
 	void menuSystem();

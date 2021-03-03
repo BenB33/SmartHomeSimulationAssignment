@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include "Choice.h"
 #include "Device.h"
 
 #include <iostream>
@@ -13,43 +14,10 @@
 
 void Controller::launch()
 {
-	// Load logger
-	std::cout << "[LOG] Load Logger\n\n";
-
-
-	// Initialize Users - When the Controller is initalized in main, Authenticator is 
-	// created, then when Authenticator is created, AuthenticationInfo is created, which
-	// initalises the US
-	std::cout << "[LOG] Initiate Users\n\n";
-
-
-	// Initiate Light sensor
-	std::cout << "[LOG] Initiate Light Sensor\n\n";
-
-
-	// Initiate Temperature Sensor
-	std::cout << "[LOG] Initiate Temp Sensor\n\n";
-
-
-	// Initiate Humidity Sensor
-	std::cout << "[LOG] Initiate Humidity Sensor\n\n";
-
-
-	// Start-up complete
-	std::cout << "[LOG] Start-up Complete!!\n\n";
-
-
-
 	// Display Menus
 	menuSystem();
 }
 
-
-void Controller::runAutonomously()
-{
-	// Complete read data first
-
-}
 
 void Controller::menuSystem()
 {
@@ -77,7 +45,9 @@ void Controller::menuSystem()
 			// Device Menu
 			while (deviceChoice != DeviceMenuChoice::Back)
 			{
+				// Device Menu Choice 
 				deviceChoice = view.deviceMenu();
+
 				switch (deviceChoice)
 				{
 				case DeviceMenuChoice::View_Device_Status:
@@ -117,7 +87,6 @@ void Controller::menuSystem()
 					}
 					break;
 				case DeviceMenuChoice::Back:
-
 					// Back
 					break;
 				}
@@ -125,41 +94,52 @@ void Controller::menuSystem()
 			break;
 		case MainMenuChoice::Sensor_Menu:
 
-			// Sensor Menu
-			sensorChoice = view.sensorMenu();
-			switch (sensorChoice)
+			while (sensorChoice != SensorMenuChoice::Back)
 			{
-			case SensorMenuChoice::View_Sensor_List:
+				sensorChoice = view.sensorMenu();
 
-				// View Sensor List
-
-				// TODO: Sensor List
-
-				break;
-			case SensorMenuChoice::Read_Sensor_Data:
-
-				// Read Sensor Data
-				if ((!proof.getProofID().empty()))
+				switch (sensorChoice)
 				{
-					if (user.getUsername() == "admin" || user.getUsername() == "student") readSensorData(inputSampleSize());
+				case SensorMenuChoice::View_Sensor_List:
+				
+					// View Sensor List
+					if ((!proof.getProofID().empty()))
+					{
+						if (user.getUsername() == "admin" || user.getUsername() == "student" || user.getUsername() == "guest") viewSensorList();
+						else
+						{
+							view.printMessage("\n\nYou are not authorised to access this content.");
+							backMenu();
+						}
+					}
 					else
 					{
-						view.printMessage("\n\nYou are not authorised to access this content.");
+						view.printMessage("\n\nYou are not logged in.");
 						backMenu();
 					}
+					break;
+				case SensorMenuChoice::Read_Sensor_Data:
+
+					// Read Sensor Data
+					if ((!proof.getProofID().empty()))
+					{
+						if (user.getUsername() == "admin" || user.getUsername() == "student") readSensorData(inputSampleSize());
+						else
+						{
+							view.printMessage("\n\nYou are not authorised to access this content.");
+							backMenu();
+						}
+					}
+					else
+					{
+						view.printMessage("\n\nYou are not logged in.");
+						backMenu();
+					}
+					break;
+				case SensorMenuChoice::Back:
+					// Back
+					break;
 				}
-				else
-				{
-					view.printMessage("\n\nYou are not logged in.");
-					backMenu();
-				}
-
-
-
-				break;
-			case SensorMenuChoice::Back:
-				// Back
-				break;
 			}
 			break;
 
@@ -198,7 +178,7 @@ void Controller::login()
 	{
 		view.printMessage("Already logged in as " + user.getUsername() + ".\n\n");
 		view.printMessage("[1] Logout\n[2] Back...\n>");
-		uint8_t logoutMenuIndex = 0;
+		uint16_t logoutMenuIndex = 0;
 
 		logoutMenuIndex = validation.integerValidation(2);
 
@@ -299,7 +279,9 @@ void Controller::changeDeviceStatus()
 
 	uint16_t menuSelection = 0;
 	menuSelection = validation.integerValidation(4);
-	menuSelection--;
+
+	// Secure subtraction function which makes integer wrap impossible.
+	menuSelection = validation.secureSubtract(menuSelection, 1);
 
 	// Toggle device status depending on the current state
 	if (devices.at(menuSelection)->getState() == state::on) devices.at(menuSelection)->turnDeviceOff();
@@ -333,20 +315,21 @@ void Controller::configureDeviceState()
 void Controller::deviceManipulation()
 {
 	// Light
-	if (devices.at(0)->getState() == state::on) model.setLux(model.getLux() + 5);
-	else if (devices.at(0)->getState() == state::off) model.setLux(model.getLux() - 5);
-
+	if (devices.at(0)->getState() == state::on) model.setLux(validation.secureAddition(model.getLux(), 5));
+	else model.setLux(validation.secureSubtract(model.getLux(), 5));
+	
 	// Heating
-	if (devices.at(1)->getState() == state::on) model.setTemp(model.getTemp() + 1);
-	else model.setTemp(model.getTemp() - 1);
+	if (devices.at(1)->getState() == state::on) model.setTemp(validation.secureAddition(model.getTemp(), 1));
+	else model.setTemp(validation.secureSubtract(model.getTemp(), 1));
+	
 
 	// Dehumidifier
-	if (devices.at(2)->getState() == state::on) model.setHumitity(model.getHumidity() + 3);
-	else model.setHumitity(model.getHumidity() - 3);
+	if (devices.at(2)->getState() == state::on) model.setHumitity(validation.secureAddition(model.getHumidity(), 3));
+	else model.setHumitity(validation.secureSubtract(model.getHumidity(), 3));
 
 	// Air Con
-	if (devices.at(3)->getState() == state::on) model.setTemp(model.getTemp() - 1);
-	else model.setTemp(model.getTemp() + 1);
+	if (devices.at(3)->getState() == state::on) model.setTemp(validation.secureSubtract(model.getTemp(), 1));
+	else model.setTemp(validation.secureAddition(model.getTemp(), 1));
 }
 
 
@@ -357,7 +340,8 @@ void Controller::deviceManipulation()
 
 void Controller::viewSensorList()
 {
-
+	view.printSensorList();
+	backMenu();
 }
 
 void Controller::readSensorData(int sampleSize)
@@ -366,20 +350,20 @@ void Controller::readSensorData(int sampleSize)
 
 	system("CLS");
 	view.printProgramHeader();
-	view.printSensorDetailsHeader(model);
+	view.printSensorDetailsHeader();
 
 	std::default_random_engine gen;
-	std::normal_distribution<float> tempDistribution(model.getTemp(),6.0);
-	std::normal_distribution<float> luxDistribution(model.getLux(),50.0);
-	std::normal_distribution<float> humidDistribution(model.getHumidity(),20.0);
+	std::normal_distribution<float> tempDistribution(static_cast<float>(model.getTemp()),6.0f);
+	std::normal_distribution<float> luxDistribution(static_cast<float>(model.getLux()),50.0f);
+	std::normal_distribution<float> humidDistribution(static_cast<float>(model.getHumidity()),20.0f);
 
 	for (int i = 0; i < sampleSize; i++)
 	{
 		time = i * 10; // Time is in 10 minute intervals
 
-		model.setTemp(tempDistribution(gen));
-		model.setLux(luxDistribution(gen));
-		model.setHumitity(humidDistribution(gen));
+		model.setTemp(static_cast<int>(tempDistribution(gen)));
+		model.setLux(static_cast<int>(luxDistribution(gen)));
+		model.setHumitity(static_cast<int>(humidDistribution(gen)));
 
 		deviceManipulation(); // Changes the environment (Temp, etc) depending on device state (If heating is on, will gradually get hotter)
 		configureDeviceState(); // Checks if sensor data is in certain bounds, then changes device status when needed
