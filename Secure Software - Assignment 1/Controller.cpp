@@ -68,28 +68,24 @@ void Controller::menuSystem()
 		switch (mainChoice)
 		{
 		case MainMenuChoice::Login:
+
 			// TODO: Login System
 			login();
 			break;
 		case MainMenuChoice::Device_Menu:
-			// Device Menu
 
+			// Device Menu
 			while (deviceChoice != DeviceMenuChoice::Back)
 			{
 				deviceChoice = view.deviceMenu();
-
 				switch (deviceChoice)
 				{
 				case DeviceMenuChoice::View_Device_Status:
-					// View Device Status
 
-
+					// View Device Status - Requires admin, student or guest account logged in
 					if ((!proof.getProofID().empty()))
 					{
-						if (user.getUsername() == "admin" || user.getUsername() == "student")
-						{
-							viewDeviceStatus();
-						}
+						if (user.getUsername() == "admin" || user.getUsername() == "student" || user.getUsername() == "guest") viewDeviceStatus();
 						else
 						{
 							view.printMessage("\n\nYou are not authorised to access this content.");
@@ -101,38 +97,65 @@ void Controller::menuSystem()
 						view.printMessage("\n\nYou are not logged in.");
 						backMenu();
 					}
-
-
 					break; 
 				case DeviceMenuChoice::Change_Device_Status:
-					// Change Device Status
-					changeDeviceStatus();
+
+					// Change Device Status - Requires admin account logged in
+					if ((!proof.getProofID().empty()))
+					{
+						if (user.getUsername() == "admin") changeDeviceStatus();
+						else
+						{
+							view.printMessage("\n\nYou are not authorised to access this content.");
+							backMenu();
+						}
+					}
+					else
+					{
+						view.printMessage("\n\nYou are not logged in.");
+						backMenu();
+					}
 					break;
 				case DeviceMenuChoice::Back:
-					// Back
 
+					// Back
 					break;
 				}
 			}
 			break;
-
 		case MainMenuChoice::Sensor_Menu:
+
 			// Sensor Menu
-
 			sensorChoice = view.sensorMenu();
-
 			switch (sensorChoice)
 			{
 			case SensorMenuChoice::View_Sensor_List:
+
 				// View Sensor List
 
 				// TODO: Sensor List
 
 				break;
 			case SensorMenuChoice::Read_Sensor_Data:
+
 				// Read Sensor Data
-				readSensorData(inputSampleSize());
-				backMenu();
+				if ((!proof.getProofID().empty()))
+				{
+					if (user.getUsername() == "admin" || user.getUsername() == "student") readSensorData(inputSampleSize());
+					else
+					{
+						view.printMessage("\n\nYou are not authorised to access this content.");
+						backMenu();
+					}
+				}
+				else
+				{
+					view.printMessage("\n\nYou are not logged in.");
+					backMenu();
+				}
+
+
+
 				break;
 			case SensorMenuChoice::Back:
 				// Back
@@ -141,8 +164,22 @@ void Controller::menuSystem()
 			break;
 
 		case MainMenuChoice::Historic_Data:
+
 			// Historic Data
-			checkHistoricData();
+			if ((!proof.getProofID().empty()))
+			{
+				if (user.getUsername() == "admin" || user.getUsername() == "student") checkHistoricData();
+				else
+				{
+					view.printMessage("\n\nYou are not authorised to access this content.");
+					backMenu();
+				}
+			}
+			else
+			{
+				view.printMessage("\n\nYou are not logged in.");
+				backMenu();
+			}
 			break;
 		case MainMenuChoice::Exit:
 			break;
@@ -210,10 +247,7 @@ void Controller::backMenu()
 {
 	int menuSelection = 0;
 	view.printMessage("\n[9] Back...\n> ");
-	while (menuSelection != 9)
-	{
-		menuSelection = validation.integerValidation(9);
-	}
+	while (menuSelection != 9) menuSelection = validation.integerValidation(9);
 }
 
 int Controller::inputSampleSize()
@@ -271,8 +305,6 @@ void Controller::changeDeviceStatus()
 	if (devices.at(menuSelection)->getState() == state::on) devices.at(menuSelection)->turnDeviceOff();
 	else if (devices.at(menuSelection)->getState() == state::off) devices.at(menuSelection)->turnDeviceOn();
 
-	// TODO: Change Device Status
-
 	backMenu();
 }
 
@@ -301,44 +333,20 @@ void Controller::configureDeviceState()
 void Controller::deviceManipulation()
 {
 	// Light
-	if (devices.at(0)->getState() == state::on)
-	{
-		model.setLux(model.getLux() + 5);
-	}
-	else if (devices.at(0)->getState() == state::off)
-	{
-		model.setLux(model.getLux() - 5);
-	}
+	if (devices.at(0)->getState() == state::on) model.setLux(model.getLux() + 5);
+	else if (devices.at(0)->getState() == state::off) model.setLux(model.getLux() - 5);
 
 	// Heating
-	if (devices.at(1)->getState() == state::on)
-	{
-		model.setTemp(model.getTemp() + 1);
-	}
-	else
-	{
-		model.setTemp(model.getTemp() - 1);
-	}
+	if (devices.at(1)->getState() == state::on) model.setTemp(model.getTemp() + 1);
+	else model.setTemp(model.getTemp() - 1);
 
 	// Dehumidifier
-	if (devices.at(2)->getState() == state::on)
-	{
-		model.setHumitity(model.getHumidity() + 3);
-	}
-	else
-	{
-		model.setHumitity(model.getHumidity() - 3);
-	}
+	if (devices.at(2)->getState() == state::on) model.setHumitity(model.getHumidity() + 3);
+	else model.setHumitity(model.getHumidity() - 3);
 
 	// Air Con
-	if (devices.at(3)->getState() == state::on)
-	{
-		model.setTemp(model.getTemp() - 1);
-	}
-	else
-	{
-		model.setTemp(model.getTemp() + 1);
-	}
+	if (devices.at(3)->getState() == state::on) model.setTemp(model.getTemp() - 1);
+	else model.setTemp(model.getTemp() + 1);
 }
 
 
@@ -380,6 +388,8 @@ void Controller::readSensorData(int sampleSize)
 
 		view.displaySensorData(time, model.getTemp(), model.getHumidity(), model.getLux(), stateString.at(devices.at(0)->getState()), stateString.at(devices.at(1)->getState()), stateString.at(devices.at(3)->getState()), stateString.at(devices.at(2)->getState()));
 	}
+
+	backMenu();
 }
 
 

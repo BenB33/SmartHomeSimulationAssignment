@@ -51,12 +51,6 @@ bool AuthenticationInfo::isValidUser(std::string username, std::string password)
 	std::map<std::string, std::string>::iterator it;
 	it = Users.find(username);
 
-	if (it != Users.end())
-	{
-		if (!(it->second.compare(password)))
-		{
-			isUserValid = true;
-		}
-	}
+	if (it != Users.end()) if (!(it->second.compare(password))) isUserValid = true;
 	return isUserValid;
 }

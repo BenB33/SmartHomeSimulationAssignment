@@ -18,15 +18,9 @@ ProofOfID Authenticator::authenticateUser(User& user)
 	std::string password;
 	std::string token;
 
-
-
-
-
 	// User inputs their password
 	view.printMessage("\nEnter your password\n> ");
 	std::cin >> password;
-
-
 
 	// Calls function isValidUser from the AuthenticationInfo class,
 	// and passes the username and password. Either returns true or false

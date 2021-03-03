@@ -11,10 +11,7 @@ std::string Encryption::encryptDecrypt(const std::string& toEncrypt)
 
 	// For loop, looping through the string one char at a time,
 	// each pass, the specific char is being encrypted/decrypted
-	for (uint16_t i = 0; i < toEncrypt.size(); i++)
-	{
-		encryptedString.at(i) = toEncrypt.at(i) ^ key;
-	}
+	for (uint16_t i = 0; i < toEncrypt.size(); i++) encryptedString.at(i) = toEncrypt.at(i) ^ key;
 
 	// Returning the encrypted/decrypted string
 	return encryptedString;
