@@ -2,11 +2,12 @@
 #include <iomanip>
 #include <ctime>
 
+#include "Validation.h"
 #include "View.h"
 
 
 
-void View::printMessage(std::string message)
+void View::printMessage(std::string message) const
 {
 	std::cout << message;
 }
@@ -22,6 +23,7 @@ void View::printProgramHeader()
 
 MainMenuChoice View::printMainMenu()
 {
+	Validation validation;
 	system("CLS");
 	printProgramHeader();
 	std::cout << "Autonomous Smart Home System\n----------------------------\n\n";
@@ -33,14 +35,15 @@ MainMenuChoice View::printMainMenu()
 	std::cout << "> ";
 
 
-	int mainMenuSelection = 0;
-	mainMenuSelection = validation.integerValidation(5);
-	mainMenuSelection = validation.secureSubtract(mainMenuSelection, 1);
+	uint16_t mainMenuSelection = 0;
+	mainMenuSelection = validation.unsignedIntegerValidation(5);
+	mainMenuSelection = validation.unsignedSecureSubtraction(mainMenuSelection, 1);
 	return static_cast<MainMenuChoice>(mainMenuSelection);
 }
 
-DeviceMenuChoice View::deviceMenu()
+DeviceMenuChoice View::printDeviceMenu()
 {
+	Validation validation;
 	system("CLS");
 	printProgramHeader();
 	std::cout << "Device Menu\n-----------\n\n";
@@ -49,25 +52,27 @@ DeviceMenuChoice View::deviceMenu()
 	std::cout << "[3] Back...\n\n";
 	std::cout << "> ";
 
-	int deviceMenuSelection = 0;
-	deviceMenuSelection = validation.integerValidation(3);
-	deviceMenuSelection = validation.secureSubtract(deviceMenuSelection, 1);
+	uint16_t deviceMenuSelection = 0;
+	deviceMenuSelection = validation.unsignedIntegerValidation(3);
+	deviceMenuSelection = validation.unsignedSecureSubtraction(deviceMenuSelection, 1);
 	return static_cast<DeviceMenuChoice>(deviceMenuSelection);
 }
 
-SensorMenuChoice View::sensorMenu()
+SensorMenuChoice View::printSensorMenu()
 {
+	Validation validation;
 	system("CLS");
 	printProgramHeader();
 	std::cout << "Sensor Menu\n-----------\n\n";
 	std::cout << "[1] View Sensor List\n";
 	std::cout << "[2] Read Sensor Data\n";
-	std::cout << "[3] Back...\n\n";
+	std::cout << "[3] Configure Sensor MinMax\n";
+	std::cout << "[4] Back...\n\n";
 	std::cout << "> ";
 
 	uint16_t sensorMenuSelection = 0;
-	sensorMenuSelection = validation.integerValidation(3);
-	sensorMenuSelection = validation.secureSubtract(sensorMenuSelection, 1);
+	sensorMenuSelection = validation.unsignedIntegerValidation(4);
+	sensorMenuSelection = validation.unsignedSecureSubtraction(sensorMenuSelection, 1);
 	return static_cast<SensorMenuChoice>(sensorMenuSelection);
 }
 
@@ -80,7 +85,7 @@ void View::printLoginHeader()
 
 void View::printViewDeviceHeader()
 {
-	printMessage("View Device Status'\n-------------------\n\n");
+	std::cout << "View Device Status'\n-------------------\n\n";
 }
 
 
@@ -92,9 +97,14 @@ void View::printChangeDeviceHeader(std::string deviceName)
 
 void View::printConfigureDeviceIntensityHeader()
 {
-	printMessage("Configure Device Intensity\n--------------------------\n\n");
+	std::cout << "Configure Device Intensity\n--------------------------\n\n";
 }
 
+
+void View::printSensorConfigureMinMaxHeader()
+{
+	std::cout << "Configure Sensor Min/Max\n-----------------------\n\n";
+}
 
 void View::printSensorDetailsHeader() const
 {
@@ -110,7 +120,7 @@ void View::printSensorDetailsHeader() const
 	std::cout << "-----------------------------------------------------------------------------------------------------------\n";
 }
 
-void View::displaySensorData(int minute, int temp, int humid, int lux, std::string lightState, std::string heatingState, std::string airconState, std::string dehumidState)
+void View::displaySensorData(uint16_t minute, int temp, uint16_t humid, uint16_t lux, std::string lightState, std::string heatingState, std::string airconState, std::string dehumidState)
 {
 	std::cout << std::left << std::setfill(' ') << std::setw(17) << minute;
 	std::cout << std::left << std::setfill(' ') << std::setw(13) << temp;

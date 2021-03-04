@@ -1,10 +1,11 @@
 #include "AuthenticationInfo.h"
+#include "Encryption.h"
 
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
-#include "Encryption.h"
+
 
 
 AuthenticationInfo::AuthenticationInfo()

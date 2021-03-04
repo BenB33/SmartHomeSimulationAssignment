@@ -2,8 +2,6 @@
 #include "View.h"
 #include <iostream>
 
-View view;
-
 std::string Light::getName()
 {
 	return name;
@@ -16,12 +14,14 @@ state Light::getState() noexcept
 
 void Light::turnDeviceOn()
 {
+	const View view;
 	currentLightState = state::on;
-	std::cout << "The light has been turned on." << std::endl;
+	view.printMessage("The light has been turned on.\n");
 }
 
 void Light::turnDeviceOff()
 {
+	const View view;
 	currentLightState = state::off;
-	std::cout << "The light has been turned off." << std::endl;
+	view.printMessage("The light has been turned off.\n");
 }

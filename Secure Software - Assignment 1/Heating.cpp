@@ -1,4 +1,5 @@
 #include "Heating.h"
+#include "View.h"
 #include <iostream>
 
 

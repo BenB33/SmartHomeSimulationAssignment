@@ -1,127 +1,158 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
-  <Class Name="Validation">
-    <Position X="17" Y="3.75" Width="2.25" />
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Validation" Collapsed="true">
+    <Position X="9.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAEAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAJAAAAAQAAAAgAAAAAAAQAA=</HashCode>
       <FileName>Validation.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AirConditioning" Collapsed="true">
-    <Position X="2.25" Y="9.25" Width="1.5" />
+  <Class Name="AirConditioning">
+    <Position X="4.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>UAAAAAAAAAAAAAAAAAAAAAAAAABECAAAAQAEAAAAAAA=</HashCode>
+      <HashCode>UAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAQAEAAAAgAA=</HashCode>
       <FileName>AirConditioning.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Dehumidifier" Collapsed="true">
-    <Position X="5.75" Y="9.25" Width="1.5" />
+  <Class Name="Dehumidifier">
+    <Position X="6.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>UAAAAAAAAAAAAAAAAAAAAAAAAARECAAAAAAEAAAAAAA=</HashCode>
+      <HashCode>UAAAAAAAIAAAAAAAAAAAAAAAAAREAAAAAAAEAAAAAAA=</HashCode>
       <FileName>Dehumidifier.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Heating" Collapsed="true">
-    <Position X="4" Y="9.25" Width="1.5" />
+  <Class Name="Device" Collapsed="true">
+    <Position X="5.25" Y="7.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>UAIAAAAAAAAAAAAABAAAAAAAAABECAAAAAAEAAAEAAA=</HashCode>
+      <HashCode>UAAAAAAAAAAAAAAAAAABAAAAAABAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Device.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Heating">
+    <Position X="8.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAIAAAAAAAAAAEAAAAAAAAAAAABEAAAAAAAEAAAAAAA=</HashCode>
       <FileName>Heating.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Light" Collapsed="true">
-    <Position X="0.5" Y="9.25" Width="1.5" />
+  <Class Name="Light">
+    <Position X="2" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>UAAAAAAAAAAAAAAAAAAAAAAAAABFCAAAAAAEAAAAAAA=</HashCode>
+      <HashCode>UAAAAAAAAAAAAACAAAAAAAAAAABFAAAAAAAEAAAAAAA=</HashCode>
       <FileName>Light.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Controller">
-    <Position X="19.75" Y="3.75" Width="2.5" />
-    <AssociationLine Name="model" Type="Model" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="19.75" Y="5.403" />
-        <Point X="16.938" Y="5.403" />
-        <Point X="16.938" Y="6.75" />
-      </Path>
-    </AssociationLine>
-    <AssociationLine Name="view" Type="View" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="22.25" Y="5.403" />
-        <Point X="25.812" Y="5.403" />
-        <Point X="25.812" Y="6.75" />
-      </Path>
-    </AssociationLine>
+    <Position X="17.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABBAIAAAAAAAAAAAAAAAAAigBAAAAAAAUQAAAAAIExA=</HashCode>
+      <HashCode>BABAIAAAAQAAABAAAAAAAAigBiAAAHAAUQAgAAAIE0A=</HashCode>
       <FileName>Controller.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="model" />
       <Field Name="view" />
-      <Field Name="user" />
-      <Field Name="validation" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Model">
-    <Position X="16" Y="6.75" Width="2" />
+    <Position X="19.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAACAAACAAAIAAIACAAAgAAIAAAMAIBIAAwEAAAAAIA=</HashCode>
+      <HashCode>ACAAAAAAAAIoAAIACAgCgiCICIIKAIAAAAwAACAAAIA=</HashCode>
       <FileName>Model.h</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="tempSensor" />
+      <Field Name="lightSensor" />
+      <Field Name="humiditySensor" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="View">
-    <Position X="24.25" Y="6.75" Width="3.25" />
+    <Position X="14.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAQAAAAIAAAABAAAAAAAAAACAIAAMIBgA=</HashCode>
+      <HashCode>ABAQAACAAAAAIAAAAEgAAABwhAEBAAAAICAIAgAIBAA=</HashCode>
       <FileName>View.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AuthenticationInfo">
-    <Position X="9.25" Y="1.5" Width="1.5" />
+  <Class Name="AuthenticationInfo" Collapsed="true">
+    <Position X="5.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAACAAAQAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAQE=</HashCode>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAE=</HashCode>
       <FileName>AuthenticationInfo.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Authenticator">
-    <Position X="4" Y="0.5" Width="1.5" />
+  <Class Name="Authenticator" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAIAQAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>Authenticator.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Encryption" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Encryption.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="ProofOfID" Collapsed="true">
-    <Position X="10.75" Y="5.5" Width="1.5" />
+    <Position X="3.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAACAAAAAAAAAAAAAACAAAAAIAAAAAAAAAAAA=</HashCode>
       <FileName>ProofOfID.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="User">
-    <Position X="20.25" Y="9.5" Width="2" />
+  <Class Name="User" Collapsed="true">
+    <Position X="1.25" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAEQAAAAAAAAAAAAAAEQAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>User.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="MainMenuChoice">
-    <Position X="26" Y="0.5" Width="1.5" />
+  <Class Name="HumiditySensor" Collapsed="true">
+    <Position X="22.75" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAQAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAiIgAAAAAAAAAAAACYCEAAAAAAAEEAAAABA=</HashCode>
+      <FileName>HumiditySensor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LightSensor" Collapsed="true">
+    <Position X="22.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAACAACCIAAIMCAAAAAAEAgAAAIA=</HashCode>
+      <FileName>LightSensor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TemperatureSensor" Collapsed="true">
+    <Position X="22.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAEAAAAAAAAAAAAhAAAAgCAAAAGAAIAAAAEACAAAEA=</HashCode>
+      <FileName>TemperatureSensor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="state" Collapsed="true">
+    <Position X="7" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>State.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="MainMenuChoice" Collapsed="true">
+    <Position X="13" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEIAAQAAAAAAA=</HashCode>
       <FileName>Choice.h</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="DeviceMenuChoice">
-    <Position X="23.75" Y="0.5" Width="2" />
+  <Enum Name="DeviceMenuChoice" Collapsed="true">
+    <Position X="13" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAACAAAQAAAA=</HashCode>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAACAAAAAAAA=</HashCode>
       <FileName>Choice.h</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="SensorMenuChoice">
-    <Position X="27.75" Y="0.5" Width="2.25" />
+  <Enum Name="SensorMenuChoice" Collapsed="true">
+    <Position X="13" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAAAAAAACAAAAAAAAAAAAAAAAAAAAIAAAAAAACAAAA=</HashCode>
+      <HashCode>AQAAAAAAAABAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Choice.h</FileName>
     </TypeIdentifier>
   </Enum>

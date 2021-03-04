@@ -2,7 +2,7 @@
 
 #include "Validation.h"
 
-uint16_t Validation::integerValidation(uint16_t limit)
+uint16_t Validation::unsignedIntegerValidation(uint16_t limit)
 {
     uint16_t input = 0;
     std::cin >> input;
@@ -24,28 +24,52 @@ uint16_t Validation::integerValidation(uint16_t limit)
     return input;
 }
 
+int Validation::signedIntegerValidation()
+{
+    int input = 0;
+    std::cin >> input;
 
-uint16_t Validation::secureAddition(unsigned int ui_a, unsigned int ui_b) {
-    unsigned int usum = 0;
-    if (UINT_MAX - ui_a < ui_b) {
-        std::cerr << "\nERROR: Integer Wrap...\n";
-    }
-    else {
-        usum = ui_a + ui_b;
+    while (!std::cin.good())
+    {
+        std::cout << "ERROR: Input is not valid. Please enter a valid input.\n> ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        std::cin >> input;
     }
 
-    return usum;
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    return input;
 }
 
 
-uint16_t Validation::secureSubtract(unsigned int ui_a, unsigned int ui_b) {
-    unsigned int udiff = 0;
-    if (ui_a < ui_b) {
-        std::cerr << "\nERROR: Integer Wrap...\n";
-    }
-    else {
-        udiff = ui_a - ui_b;
-    }
+uint16_t Validation::unsignedSecureAddition(uint16_t ui_a, uint16_t ui_b) 
+{
+    if (std::numeric_limits<uint16_t>::max() - ui_a < ui_b) throw "ERROR: Unsigned int wrap.\n";
+    else return ui_a + ui_b;
+}
 
-    return udiff;
+
+uint16_t Validation::unsignedSecureSubtraction(uint16_t ui_a, uint16_t ui_b) 
+{
+    if (ui_a < ui_b) throw "ERROR: Unsigned int wrap.\n";
+    else return ui_a - ui_b;
+}
+
+
+int Validation::signedSecureSubtraction(int si_a, int si_b) 
+{
+    if ((si_b > 0 && si_a < std::numeric_limits<uint16_t>::max() + si_b) || 
+        (si_b < 0 && si_a > std::numeric_limits<uint16_t>::max() + si_b)) throw "\nERROR: Signed Integer Overflow.\n";
+    else return si_a - si_b;
+}
+
+
+int Validation::signedSecureAddition(int si_a, int si_b)
+{
+    if (((si_b > 0) && (si_a > (std::numeric_limits<uint16_t>::max() - si_b))) || 
+        ((si_b < 0) && (si_a < (std::numeric_limits<uint16_t>::max() - si_b)))) throw "\nERROR: Signed Integer Overflow.\n";
+    else return si_a + si_b;
 }

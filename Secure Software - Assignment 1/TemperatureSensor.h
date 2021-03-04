@@ -11,7 +11,13 @@ private:
 
 public:
 	std::string getName() const;
-	int getCurrentTemp() const;
-	void setCurrentTemp(int newCurrentTemp);
-	void configureTempSensor(int newMaxTemp, int newMinTemp);
+	int getCurrentTemp() const noexcept;
+	void setCurrentTemp(int newCurrentTemp) noexcept;
+	void configureTempSensor(int newMaxTemp, int newMinTemp) noexcept;
+
+	int getMinTemp() const noexcept;
+	int getMaxTemp() const noexcept;
+
+	void setMinTemp(int newMinTemp) noexcept;
+	void setMaxTemp(int newMaxTemp) noexcept;
 };

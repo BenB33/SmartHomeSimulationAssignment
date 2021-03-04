@@ -5,13 +5,18 @@ class HumiditySensor
 {
 private:
 	std::string name = "Humidity Sensor";
-	int currentHumidity = 50;
-	int minHumidity = 0;
-	int maxHumidity = 100;
+	uint16_t currentHumidity = 50;
+	uint16_t minHumidity = 0;
+	uint16_t maxHumidity = 100;
 
 public:
 	std::string getName()const;
-	int getCurrentHumidity() const;
-	void setCurrentHumidity(int newCurrentTemp);
-	void configureHumiditySensor(int newMaxHumidity, int newMinHumidity);
+	uint16_t getCurrentHumidity() const noexcept;
+	void setCurrentHumidity(uint16_t newCurrentTemp) noexcept;
+	void configureHumiditySensor(uint16_t newMaxHumidity, uint16_t newMinHumidity) noexcept;
+
+	uint16_t getMinHumidity() const noexcept;
+	uint16_t getMaxHumidity() const noexcept;
+	void setMinHumidity(uint16_t newMinHumidity) noexcept;
+	void setMaxHumidity(uint16_t newMaxHumidity) noexcept;
 };

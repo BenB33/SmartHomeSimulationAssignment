@@ -4,7 +4,11 @@
 class Validation
 {
 public:
-	static uint16_t integerValidation(uint16_t limit);
-	uint16_t secureAddition(unsigned int ui_a, unsigned int ui_b);
-	uint16_t secureSubtract(unsigned int ui_a, unsigned int ui_b);
+	static uint16_t unsignedIntegerValidation(uint16_t limit);
+    static int signedIntegerValidation();
+    uint16_t unsignedSecureAddition(uint16_t ui_a, uint16_t ui_b);
+    uint16_t unsignedSecureSubtraction(uint16_t ui_a, uint16_t ui_b);
+
+    int signedSecureSubtraction(int si_a, int si_b);
+    int signedSecureAddition(int si_a, int si_b);
 };

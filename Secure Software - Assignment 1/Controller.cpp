@@ -46,7 +46,7 @@ void Controller::menuSystem()
 			while (deviceChoice != DeviceMenuChoice::Back)
 			{
 				// Device Menu Choice 
-				deviceChoice = view.deviceMenu();
+				deviceChoice = view.printDeviceMenu();
 
 				switch (deviceChoice)
 				{
@@ -96,7 +96,7 @@ void Controller::menuSystem()
 
 			while (sensorChoice != SensorMenuChoice::Back)
 			{
-				sensorChoice = view.sensorMenu();
+				sensorChoice = view.printSensorMenu();
 
 				switch (sensorChoice)
 				{
@@ -135,6 +135,12 @@ void Controller::menuSystem()
 						view.printMessage("\n\nYou are not logged in.");
 						backMenu();
 					}
+					break;
+
+				case SensorMenuChoice::Configure_Sensor_MinMax:
+
+					// Configure Min and Max of Sensors
+					configureSensorMinMax();
 					break;
 				case SensorMenuChoice::Back:
 					// Back
@@ -180,7 +186,7 @@ void Controller::login()
 		view.printMessage("[1] Logout\n[2] Back...\n>");
 		uint16_t logoutMenuIndex = 0;
 
-		logoutMenuIndex = validation.integerValidation(2);
+		logoutMenuIndex = validation.unsignedIntegerValidation(2);
 
 		switch (logoutMenuIndex)
 		{
@@ -227,14 +233,14 @@ void Controller::backMenu()
 {
 	int menuSelection = 0;
 	view.printMessage("\n[9] Back...\n> ");
-	while (menuSelection != 9) menuSelection = validation.integerValidation(9);
+	while (menuSelection != 9) menuSelection = validation.unsignedIntegerValidation(9);
 }
 
-int Controller::inputSampleSize()
+uint16_t Controller::inputSampleSize()
 {
 	uint16_t sampleSize;
 	view.printMessage("Input required sample size.\n> ");
-	sampleSize = validation.integerValidation(std::numeric_limits<uint16_t>::max());
+	sampleSize = validation.unsignedIntegerValidation(std::numeric_limits<uint16_t>::max());
 
 	return sampleSize;
 }
@@ -278,10 +284,10 @@ void Controller::changeDeviceStatus()
 	view.printMessage("\n> ");
 
 	uint16_t menuSelection = 0;
-	menuSelection = validation.integerValidation(4);
+	menuSelection = validation.unsignedIntegerValidation(4);
 
 	// Secure subtraction function which makes integer wrap impossible.
-	menuSelection = validation.secureSubtract(menuSelection, 1);
+	menuSelection = validation.unsignedSecureSubtraction(menuSelection, 1);
 
 	// Toggle device status depending on the current state
 	if (devices.at(menuSelection)->getState() == state::on) devices.at(menuSelection)->turnDeviceOff();
@@ -315,21 +321,21 @@ void Controller::configureDeviceState()
 void Controller::deviceManipulation()
 {
 	// Light
-	if (devices.at(0)->getState() == state::on) model.setLux(validation.secureAddition(model.getLux(), 5));
-	else model.setLux(validation.secureSubtract(model.getLux(), 5));
+	if (devices.at(0)->getState() == state::on) model.setLux(validation.unsignedSecureAddition(model.getLux(), 5));
+	else model.setLux(validation.unsignedSecureSubtraction(model.getLux(), 5));
 	
 	// Heating
-	if (devices.at(1)->getState() == state::on) model.setTemp(validation.secureAddition(model.getTemp(), 1));
-	else model.setTemp(validation.secureSubtract(model.getTemp(), 1));
+	if (devices.at(1)->getState() == state::on) model.setTemp(validation.signedSecureAddition(model.getTemp(), 1));
+	else model.setTemp(validation.signedSecureSubtraction(model.getTemp(), 1));
 	
 
 	// Dehumidifier
-	if (devices.at(2)->getState() == state::on) model.setHumitity(validation.secureAddition(model.getHumidity(), 3));
-	else model.setHumitity(validation.secureSubtract(model.getHumidity(), 3));
+	if (devices.at(2)->getState() == state::on) model.setHumidity(validation.unsignedSecureAddition(model.getHumidity(), 3));
+	else model.setHumidity(validation.unsignedSecureSubtraction(model.getHumidity(), 3));
 
 	// Air Con
-	if (devices.at(3)->getState() == state::on) model.setTemp(validation.secureSubtract(model.getTemp(), 1));
-	else model.setTemp(validation.secureAddition(model.getTemp(), 1));
+	if (devices.at(3)->getState() == state::on) model.setTemp(validation.signedSecureSubtraction(model.getTemp(), 1));
+	else model.setTemp(validation.signedSecureAddition(model.getTemp(), 1));
 }
 
 
@@ -344,9 +350,9 @@ void Controller::viewSensorList()
 	backMenu();
 }
 
-void Controller::readSensorData(int sampleSize)
+void Controller::readSensorData(uint16_t sampleSize)
 {
-	int time = 0;
+	uint16_t time = 0;
 
 	system("CLS");
 	view.printProgramHeader();
@@ -357,13 +363,13 @@ void Controller::readSensorData(int sampleSize)
 	std::normal_distribution<float> luxDistribution(static_cast<float>(model.getLux()),50.0f);
 	std::normal_distribution<float> humidDistribution(static_cast<float>(model.getHumidity()),20.0f);
 
-	for (int i = 0; i < sampleSize; i++)
+	for (uint16_t i = 0; i < sampleSize; i++)
 	{
 		time = i * 10; // Time is in 10 minute intervals
 
-		model.setTemp(static_cast<int>(tempDistribution(gen)));
-		model.setLux(static_cast<int>(luxDistribution(gen)));
-		model.setHumitity(static_cast<int>(humidDistribution(gen)));
+		model.setTemp(static_cast<uint16_t>(tempDistribution(gen)));
+		model.setLux(static_cast<uint16_t>(luxDistribution(gen)));
+		model.setHumidity(static_cast<uint16_t>(humidDistribution(gen)));
 
 		deviceManipulation(); // Changes the environment (Temp, etc) depending on device state (If heating is on, will gradually get hotter)
 		configureDeviceState(); // Checks if sensor data is in certain bounds, then changes device status when needed
@@ -377,6 +383,91 @@ void Controller::readSensorData(int sampleSize)
 }
 
 
+void Controller::configureSensorMinMax()
+{
+	system("CLS");
+	view.printProgramHeader();
+	view.printSensorConfigureMinMaxHeader();
+
+	view.printMessage("[1] Light Sensor\n[2] Temperature Sensor\n[3] Humidity Sensor\n\n> ");
+
+	uint16_t sensorSelection = 0;
+
+	while (sensorSelection == 0)
+	{
+		sensorSelection = validation.unsignedIntegerValidation(3);
+		
+		switch (sensorSelection)
+		{
+		case 1:
+			// Light Sensor
+			{
+				view.printMessage("\nCurrent Light Sensor Min = " + std::to_string(model.getMinLux()));
+				view.printMessage("\nCurrent Light Sensor Max = " + std::to_string(model.getMaxLux()));
+
+				view.printMessage("\n\nPlease enter new Light Min \n> ");
+				model.setMinLux(validation.unsignedIntegerValidation(3000));
+				view.printMessage("\nPlease enter new Light Max\n> ");
+				uint16_t newMaxLux = validation.unsignedIntegerValidation(3000);
+				while (newMaxLux < model.getMinLux())
+				{
+					view.printMessage("The max lux level you entered is lower than the current min lux level.\nPlease enter a valid max lux level:\n> ");
+					newMaxLux = validation.unsignedIntegerValidation(3000);
+				}
+				model.setMaxLux(newMaxLux);
+				backMenu();
+				break;
+			}
+
+		case 2:
+			// Temp Sensor
+			{
+				view.printMessage("\nCurrent Temperature Sensor Min = " + std::to_string(model.getMinTemp()));
+				view.printMessage("\nCurrent Temperature Sensor Max = " + std::to_string(model.getMaxTemp()));
+
+				view.printMessage("\n\nPlease enter new Temperature Min \n> ");
+				model.setMinTemp(validation.signedIntegerValidation());
+				view.printMessage("\nPlease enter new Temperature Max\n> ");
+				int newMaxTemp = validation.signedIntegerValidation();
+				while (newMaxTemp < model.getMinTemp())
+				{
+					view.printMessage("The max temperature you entered is lower than the current min temp.\nPlease enter a valid max temp:\n> ");
+					newMaxTemp = validation.signedIntegerValidation();
+				}
+				model.setMaxTemp(newMaxTemp);
+				backMenu();
+				break;
+			}
+
+		case 3:
+			// Humidity Sensor
+			{
+				view.printMessage("\nCurrent Humidity Sensor Min = " + std::to_string(model.getMinHumidity()));
+				view.printMessage("\nCurrent Humidity Sensor Max = " + std::to_string(model.getMaxHumidity()));
+
+				view.printMessage("\n\nPlease enter new Humidity Min \n> ");
+				model.setMinHumidity(validation.unsignedIntegerValidation(100));
+				view.printMessage("\nPlease enter new Humidity Max\n> ");
+				uint16_t newMaxHumidity = validation.unsignedIntegerValidation(100);
+				while (newMaxHumidity < model.getMinHumidity())
+				{
+					view.printMessage("The max humidity you entered is lower than the current min humidity.\nPlease enter a valid max humidity:\n> ");
+					newMaxHumidity = validation.unsignedIntegerValidation(100);
+				}
+				model.setMaxHumidity(newMaxHumidity);
+				backMenu();
+				break;
+			}
+		default:
+			break;
+		}
+	}
+
+
+
+}
+
+
 /*
 	Historic Data Functions
 */
@@ -386,17 +477,17 @@ void Controller::checkHistoricData()
 	// User input for day
 	uint16_t dateDay;
 	view.printDateDay();
-	dateDay = validation.integerValidation(31);
+	dateDay = validation.unsignedIntegerValidation(31);
 
 	// User input for month
 	uint16_t dateMonth;
 	view.printDateMonth();
-	dateMonth = validation.integerValidation(12);
+	dateMonth = validation.unsignedIntegerValidation(12);
 
 	// User input for year
 	uint16_t dateYear;
 	view.printDateYear();
-	dateYear = validation.integerValidation(4);
+	dateYear = validation.unsignedIntegerValidation(4);
 
 	// Converting year selection index into actual year string
 	switch (dateYear)
@@ -489,4 +580,3 @@ void Controller::checkHistoricData()
 
 	backMenu();
 }
-

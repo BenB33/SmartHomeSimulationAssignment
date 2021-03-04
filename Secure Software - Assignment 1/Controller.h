@@ -35,6 +35,7 @@ public:
 	void launch();
 	void menuSystem();
 	void backMenu();
+	void login();
 
 	void viewDeviceStatus();
 	void changeDeviceStatus();
@@ -42,12 +43,13 @@ public:
 	void deviceManipulation();
 
 	void viewSensorList();
-	void readSensorData(int sampleSize);
+	void readSensorData(uint16_t sampleSize);
+	void configureSensorMinMax();
 
 
 	void checkHistoricData();
 
-	int inputSampleSize();
+	uint16_t inputSampleSize();
 
-	void login();
+
 };

@@ -1,4 +1,5 @@
 #include "Dehumidifier.h"
+#include "View.h"
 
 #include <iostream>
 

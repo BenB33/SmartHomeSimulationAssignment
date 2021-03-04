@@ -1,4 +1,7 @@
 #include "AirConditioning.h"
+#include "View.h"
+
+View view;
 
 std::string AirConditioning::getName()
 {
