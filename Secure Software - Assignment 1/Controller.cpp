@@ -10,7 +10,7 @@
 #include <random>
 #include <fstream>
 #include <sstream>
-
+#include <gsl.h>
 
 void Controller::launch()
 {
@@ -365,7 +365,7 @@ void Controller::readSensorData(uint16_t sampleSize)
 
 	for (uint16_t i = 0; i < sampleSize; i++)
 	{
-		time = i * 10; // Time is in 10 minute intervals
+		time = i * gsl::narrow_cast<uint16_t>(10); // Time is in 10 minute intervals
 
 		model.setTemp(static_cast<uint16_t>(tempDistribution(gen)));
 		model.setLux(static_cast<uint16_t>(luxDistribution(gen)));
