@@ -62,17 +62,17 @@ uint16_t Validation::unsignedSecureSubtraction(uint16_t ui_a, uint16_t ui_b)
 }
 
 
-int Validation::signedSecureSubtraction(int si_a, int si_b) 
+int64_t Validation::signedSecureSubtraction(int64_t si_a, int64_t si_b)
 {
-    if ((si_b > 0 && si_a < std::numeric_limits<int>::max() + si_b) || 
-        (si_b < 0 && si_a > std::numeric_limits<int>::max() + si_b)) throw "\nERROR: Signed Integer Overflow.\n";
+    if ((si_b > 0 && si_a < std::numeric_limits<int64_t>::max() + si_b) ||
+        (si_b < 0 && si_a > std::numeric_limits<int64_t>::max() + si_b)) throw "\nERROR: Signed Integer Overflow.\n";
     else return si_a - si_b;
 }
 
 
-int Validation::signedSecureAddition(int si_a, int si_b)
+int64_t Validation::signedSecureAddition(int64_t si_a, int64_t si_b)
 {
-    if (((si_b > 0) && (si_a > (std::numeric_limits<int>::max() - si_b))) || 
-        ((si_b < 0) && (si_a < (std::numeric_limits<int>::max() - si_b)))) throw "\nERROR: Signed Integer Overflow.\n";
+    if (((si_b > 0) && (si_a > (std::numeric_limits<int64_t>::max() - si_b))) ||
+        ((si_b < 0) && (si_a < (std::numeric_limits<int64_t>::max() - si_b)))) throw "\nERROR: Signed Integer Overflow.\n";
     else return si_a + si_b;
 }

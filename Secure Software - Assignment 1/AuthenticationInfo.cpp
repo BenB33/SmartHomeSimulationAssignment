@@ -5,12 +5,8 @@
 #include <fstream>
 #include <sstream>
 
-
-
-
-AuthenticationInfo::AuthenticationInfo()
-{
-	// Initialize an ifstream with exceptions
+AuthenticationInfo::AuthenticationInfo() // I don't understand why there is a warning telling me to declare it noexcept, as when I do that, it tells me not to declare it noexcept?!?!
+{	// Initialize an ifstream with exceptions
 	std::ifstream readFile("userList.txt", std::ios::in);
 	readFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 

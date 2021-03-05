@@ -13,20 +13,20 @@ private:
 	LightSensor	lightSensor;
 	HumiditySensor humiditySensor;
 
-	int temperature = 0;	// Temperature used for heating
+	int16_t temperature = 0;	// Temperature used for heating
 	uint16_t luxLevel = 0;	// Lux used for lights
-	uint16_t humidity = 0; // Humitity used for...
+	uint16_t humidity = 0; // Humitity used for dehumidifier
 
 public:
-	Model();
+	Model() noexcept;
 
 	// Temp Sensor
-	int getTemp() const noexcept;
-	void setTemp(const int newTemp) noexcept;
-	int getMinTemp() const noexcept;
-	int getMaxTemp() const noexcept;
-	void setMinTemp(int newMinTemp) noexcept;
-	void setMaxTemp(int newMaxTemp) noexcept;
+	int16_t getTemp() const noexcept;
+	void setTemp(const int16_t newTemp) noexcept;
+	int16_t getMinTemp() const noexcept;
+	int16_t getMaxTemp() const noexcept;
+	void setMinTemp(int16_t newMinTemp) noexcept;
+	void setMaxTemp(int16_t newMaxTemp) noexcept;
 
 	// Light Sensor
 	uint16_t getLux() const noexcept;

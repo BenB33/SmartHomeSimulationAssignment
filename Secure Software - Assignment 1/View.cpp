@@ -7,12 +7,15 @@
 
 
 
-void View::printMessage(std::string message) const
+void View::printMessage(std::string message)
 {
 	std::cout << message;
 }
 
 
+/*
+	Print Headers
+*/
 void View::printProgramHeader()
 {
 	const time_t currentTime = time(NULL);
@@ -20,7 +23,48 @@ void View::printProgramHeader()
 	localtime_s(&structuredTime, &currentTime);
 	std::cout << "[" << std::put_time(&structuredTime, "%a %d %b %Y - %R]") << std::endl << std::endl;
 }
+void View::printLoginHeader()
+{
+	std::cout << "Login\n-----\n\n";
+}
+void View::printViewDeviceHeader()
+{
+	std::cout << "View Device Status'\n-------------------\n\n";
+}
+void View::printChangeDeviceHeader(std::string deviceName)
+{
+	std::cout << "Change " << deviceName << "'s Status." << std::endl << "-------------------------\n\n";
+}
+void View::printSensorConfigureMinMaxHeader()
+{
+	std::cout << "Configure Sensor Min/Max\n-----------------------\n\n";
+}
+void View::printSensorDetailsHeader()
+{
+	std::cout << "-----------------------------------------------------------------------------------------------------------\n";
+	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Minute]";
+	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Temp \370C]";
+	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Heating]";
+	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Air-Con]";
+	std::cout << std::left << std::setfill(' ') << std::setw(15) << "[Lex Level]";
+	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Light]";
+	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Humid %]";
+	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Dehumidifier]" << std::endl;
+	std::cout << "-----------------------------------------------------------------------------------------------------------\n";
+}
+void View::printHistoricDataHeader()
+{
+	std::cout << "------------------------------------------------------------------\n";
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Reading]";
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Temerature]";
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Lex Level]";
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Humidity]" << std::endl;
+	std::cout << "------------------------------------------------------------------\n";
+}
 
+/*
+	Print Menus
+*/
 MainMenuChoice View::printMainMenu()
 {
 	Validation validation;
@@ -40,7 +84,6 @@ MainMenuChoice View::printMainMenu()
 	mainMenuSelection = validation.unsignedSecureSubtraction(mainMenuSelection, 1);
 	return static_cast<MainMenuChoice>(mainMenuSelection);
 }
-
 DeviceMenuChoice View::printDeviceMenu()
 {
 	Validation validation;
@@ -57,7 +100,6 @@ DeviceMenuChoice View::printDeviceMenu()
 	deviceMenuSelection = validation.unsignedSecureSubtraction(deviceMenuSelection, 1);
 	return static_cast<DeviceMenuChoice>(deviceMenuSelection);
 }
-
 SensorMenuChoice View::printSensorMenu()
 {
 	Validation validation;
@@ -77,50 +119,21 @@ SensorMenuChoice View::printSensorMenu()
 }
 
 
-void View::printLoginHeader()
+
+/*
+	Sensors
+*/
+void View::printSensorList()
 {
-	std::cout << "Login\n-----\n\n";
+	system("CLS");
+	printProgramHeader();
+	std::cout << "Sensor List\n" << "-----------\n\n";
+	std::cout << "[1] Light Sensor\n";
+	std::cout << "[2] Temperature Sensor\n";
+	std::cout << "[3] Humidity Sensor\n";
 }
-
-
-void View::printViewDeviceHeader()
-{
-	std::cout << "View Device Status'\n-------------------\n\n";
-}
-
-
-void View::printChangeDeviceHeader(std::string deviceName)
-{
-	std::cout << "Change " << deviceName << "'s Status." << std::endl << "-------------------------\n\n";
-}
-
-
-void View::printConfigureDeviceIntensityHeader()
-{
-	std::cout << "Configure Device Intensity\n--------------------------\n\n";
-}
-
-
-void View::printSensorConfigureMinMaxHeader()
-{
-	std::cout << "Configure Sensor Min/Max\n-----------------------\n\n";
-}
-
-void View::printSensorDetailsHeader() const
-{
-	std::cout << "-----------------------------------------------------------------------------------------------------------\n";
-	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Minute]";
-	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Temp \370C]";
-	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Heating]";
-	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Air-Con]";
-	std::cout << std::left << std::setfill(' ') << std::setw(15) << "[Lex Level]";
-	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Light]";
-	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Humid %]";
-	std::cout << std::left << std::setfill(' ') << std::setw(13) << "[Dehumidifier]" << std::endl;
-	std::cout << "-----------------------------------------------------------------------------------------------------------\n";
-}
-
-void View::displaySensorData(uint16_t minute, int temp, uint16_t humid, uint16_t lux, std::string lightState, std::string heatingState, std::string airconState, std::string dehumidState)
+void View::displaySensorData(uint16_t minute, int16_t temp, uint16_t humid, uint16_t lux, 
+								std::string lightState, std::string heatingState, std::string airconState, std::string dehumidState)
 {
 	std::cout << std::left << std::setfill(' ') << std::setw(17) << minute;
 	std::cout << std::left << std::setfill(' ') << std::setw(13) << temp;
@@ -132,17 +145,21 @@ void View::displaySensorData(uint16_t minute, int temp, uint16_t humid, uint16_t
 	std::cout << std::left << std::setfill(' ') << std::setw(13) << dehumidState << std::endl;
 }
 
-void View::printSensorList()
+/*
+	Historic Data
+*/
+void View::printHistoricData(uint16_t readingCount, std::string temperature, std::string luxLevel, std::string humidity)
 {
-	system("CLS");
-	printProgramHeader();
-	std::cout << "Sensor List\n" << "-----------\n\n";
-	std::cout << "[1] Light Sensor\n";
-	std::cout << "[2] Temperature Sensor\n";
-	std::cout << "[3] Humidity Sensor\n";
+	std::cout << std::left << std::setfill(' ') << std::setw(4) << " ";
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << readingCount;
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << temperature;
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << luxLevel;
+	std::cout << std::left << std::setfill(' ') << std::setw(17) << humidity << std::endl;
 }
 
-
+/*
+	Print Date
+*/
 void View::printDateDay()
 {
 	system("CLS");
@@ -151,7 +168,6 @@ void View::printDateDay()
 	std::cout << "[1-31] Day\n";
 	std::cout << "> ";
 }
-
 void View::printDateMonth()
 {
 	system("CLS");
@@ -171,7 +187,6 @@ void View::printDateMonth()
 	std::cout << "[12] December\n";
 	std::cout << "> ";
 }
-
 void View::printDateYear()
 {
 	system("CLS");
@@ -182,23 +197,4 @@ void View::printDateYear()
 	std::cout << "[3] 2020\n";
 	std::cout << "[4] 2021\n";
 	std::cout << "> ";
-}
-
-void View::printHistoricDataHeader()
-{
-	std::cout << "------------------------------------------------------------------\n";
-	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Reading]";
-	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Temerature]";
-	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Lex Level]";
-	std::cout << std::left << std::setfill(' ') << std::setw(17) << "[Humidity]" << std::endl;
-	std::cout << "------------------------------------------------------------------\n";
-}
-
-void View::printHistoricData(uint16_t readingCount, std::string temperature, std::string luxLevel, std::string humidity)
-{
-	std::cout << std::left << std::setfill(' ') << std::setw(4) << " ";
-	std::cout << std::left << std::setfill(' ') << std::setw(17) << readingCount;
-	std::cout << std::left << std::setfill(' ') << std::setw(17) << temperature;
-	std::cout << std::left << std::setfill(' ') << std::setw(17) << luxLevel;
-	std::cout << std::left << std::setfill(' ') << std::setw(17) << humidity << std::endl;
 }

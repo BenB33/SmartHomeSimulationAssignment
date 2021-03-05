@@ -18,26 +18,27 @@ void Controller::launch()
 	menuSystem();
 }
 
-
+// Menu System that handles all of the menus
 void Controller::menuSystem()
 {
+	// mainChoice is initialized
 	MainMenuChoice mainChoice = MainMenuChoice::Login;
-	//DeviceMenuChoice deviceChoice = DeviceMenuChoice::View_Device_Status;
-	//SensorMenuChoice sensorChoice = SensorMenuChoice::Read_Light_Sensor_Data;
 
 	while (mainChoice != MainMenuChoice::Exit)
 	{
-		//MainMenuChoice mainChoice = MainMenuChoice::Login;
+		// deviceChoice and sensorChoice is initialized
 		DeviceMenuChoice deviceChoice = DeviceMenuChoice::View_Device_Status;
 		SensorMenuChoice sensorChoice = SensorMenuChoice::View_Sensor_List;
 
+		// Call printMainMenu that returns a menu choice to menuChoice.
+		// This is then used for the menu switch case below.
 		mainChoice = view.printMainMenu();
 
 		switch (mainChoice)
 		{
 		case MainMenuChoice::Login:
-
-			// TODO: Login System
+			
+			// Login
 			login();
 			break;
 		case MainMenuChoice::Device_Menu:
@@ -45,6 +46,7 @@ void Controller::menuSystem()
 			// Device Menu
 			while (deviceChoice != DeviceMenuChoice::Back)
 			{
+
 				// Device Menu Choice 
 				deviceChoice = view.printDeviceMenu();
 
@@ -254,17 +256,16 @@ void Controller::viewDeviceStatus()
 {
 	system("CLS");
 	view.printProgramHeader();
-	view.printMessage("As a " + user.getUsername() + " you are authorised to access this content\n\n");
 	view.printViewDeviceHeader();
 
-	// TODO: Get device status'
+	// For loop that loops once for each device in the devices vector
+	// It prints each device and their status (on/off)
 	for (uint16_t i = 0; i < devices.size(); i++)
 	{
 		view.printMessage("[" + std::to_string(i + 1) + "] ");
 		view.printMessage(devices.at(i)->getName());
 		view.printMessage(" = " + (stateString.at(devices.at(i)->getState())) + "\n");
 	}
-
 	backMenu();
 }
 
@@ -275,23 +276,24 @@ void Controller::changeDeviceStatus()
 	view.printProgramHeader();
 	view.printChangeDeviceHeader("a Device");
 
+	// For loop that prints the device names in a list
 	for(uint16_t i = 0; i < devices.size(); i++)
 	{
 		view.printMessage("[" + std::to_string(i + 1) + "] ");
 		view.printMessage(devices.at(i)->getName() + "\n");
 	}
 
+	// Valid user input to choose the device
 	view.printMessage("\n> ");
-
-	uint16_t menuSelection = 0;
-	menuSelection = validation.unsignedIntegerValidation(4);
+	uint16_t deviceSelection = 0;
+	deviceSelection = validation.unsignedIntegerValidation(4);
 
 	// Secure subtraction function which makes integer wrap impossible.
-	menuSelection = validation.unsignedSecureSubtraction(menuSelection, 1);
+	deviceSelection = validation.unsignedSecureSubtraction(deviceSelection, 1);
 
 	// Toggle device status depending on the current state
-	if (devices.at(menuSelection)->getState() == state::on) devices.at(menuSelection)->turnDeviceOff();
-	else if (devices.at(menuSelection)->getState() == state::off) devices.at(menuSelection)->turnDeviceOn();
+	if (devices.at(deviceSelection)->getState() == state::on) devices.at(deviceSelection)->turnDeviceOff();
+	else if (devices.at(deviceSelection)->getState() == state::off) devices.at(deviceSelection)->turnDeviceOn();
 
 	backMenu();
 }
@@ -299,41 +301,39 @@ void Controller::changeDeviceStatus()
 
 void Controller::configureDeviceState()
 {
-	// Configuring Light Device
+	// Configuring Light Device if light level is more than 150 and less than 80
 	if (model.getLux() > 150 && devices.at(0)->getState() == state::on) devices.at(0)->turnDeviceOff();
 	else if (model.getLux() < 80 && devices.at(0)->getState() == state::off) devices.at(0)->turnDeviceOn();
 
-
-	// Configuring Heating/Aircon
+	// Configuring Heating if temperature is more than 20 degrees and less than 10 degrees
 	if (model.getTemp() > 20 && devices.at(1)->getState() == state::on) devices.at(1)->turnDeviceOff();
 	else if (model.getTemp() < 10 && devices.at(1)->getState() == state::off) devices.at(1)->turnDeviceOn();
 
+	// Configuring Aircon if temperature is more than 25 degrees and less than 20 degrees
 	if (model.getTemp() > 25 && devices.at(3)->getState() == state::off) devices.at(3)->turnDeviceOn();
 	else if (model.getTemp() < 20 && devices.at(3)->getState() == state::on) devices.at(3)->turnDeviceOff();
 
-
-	// Configuring Dehumidifier
-	if (model.getHumidity() > 65 && devices.at(2)->getState() == state::off) devices.at(2)->turnDeviceOn();
-	else if (model.getHumidity() < 50 && devices.at(2)->getState() == state::on) devices.at(2)->turnDeviceOff();
+	// Configuring Dehumidifier if humidity is more than 70% and less than 45%
+	if (model.getHumidity() > 70 && devices.at(2)->getState() == state::off) devices.at(2)->turnDeviceOn();
+	else if (model.getHumidity() < 45 && devices.at(2)->getState() == state::on) devices.at(2)->turnDeviceOff();
 }
 
 
-void Controller::deviceManipulation()
+void Controller::sensorDataManipulation()
 {
-	// Light
+	// Lux level is reduced by 5 if the light is off, but increased by 5 if the light is on. 
 	if (devices.at(0)->getState() == state::on) model.setLux(validation.unsignedSecureAddition(model.getLux(), 5));
 	else model.setLux(validation.unsignedSecureSubtraction(model.getLux(), 5));
 	
-	// Heating
+	// Temperature is reduced by 1 if the heating is off, but increased by 1 if the heating on.
 	if (devices.at(1)->getState() == state::on) model.setTemp(validation.signedSecureAddition(model.getTemp(), 1));
 	else model.setTemp(validation.signedSecureSubtraction(model.getTemp(), 1));
 	
+	// Humidity is reduced by 3 if the dehumidifier is on, but increased by 3 if the dehumidifier is off.
+	if (devices.at(2)->getState() == state::on) model.setHumidity(validation.unsignedSecureSubtraction(model.getHumidity(), 3));
+	else model.setHumidity(validation.unsignedSecureAddition(model.getHumidity(), 3));
 
-	// Dehumidifier
-	if (devices.at(2)->getState() == state::on) model.setHumidity(validation.unsignedSecureAddition(model.getHumidity(), 3));
-	else model.setHumidity(validation.unsignedSecureSubtraction(model.getHumidity(), 3));
-
-	// Air Con
+	// Temperature is reduced by 1 if the aircon is on, but increased by 1 if the aircon is off.
 	if (devices.at(3)->getState() == state::on) model.setTemp(validation.signedSecureSubtraction(model.getTemp(), 1));
 	else model.setTemp(validation.signedSecureAddition(model.getTemp(), 1));
 }
@@ -358,27 +358,35 @@ void Controller::readSensorData(uint16_t sampleSize)
 	view.printProgramHeader();
 	view.printSensorDetailsHeader();
 
+	// Default Random Engine is initialized
 	std::default_random_engine gen;
+	// Three seperate normal distribution variables are initialized with accurate data,
+	// for each of the 3 variables. Static casts are used to ensure no type mismatch.
 	std::normal_distribution<float> tempDistribution(static_cast<float>(model.getTemp()),6.0f);
 	std::normal_distribution<float> luxDistribution(static_cast<float>(model.getLux()),50.0f);
 	std::normal_distribution<float> humidDistribution(static_cast<float>(model.getHumidity()),20.0f);
 
+	// For loop that loops the amount chosen by the user (sampleSize)
 	for (uint16_t i = 0; i < sampleSize; i++)
 	{
 		time = i * gsl::narrow_cast<uint16_t>(10); // Time is in 10 minute intervals
 
+		// Temp Lux and Humidity is set to an accurate random number using
+		// default random engine and normal distribution initialized above
 		model.setTemp(static_cast<uint16_t>(tempDistribution(gen)));
 		model.setLux(static_cast<uint16_t>(luxDistribution(gen)));
 		model.setHumidity(static_cast<uint16_t>(humidDistribution(gen)));
 
-		deviceManipulation(); // Changes the environment (Temp, etc) depending on device state (If heating is on, will gradually get hotter)
+		sensorDataManipulation(); // Changes the environment (Temp, etc) depending on device state (If heating is on, will gradually get hotter)
 		configureDeviceState(); // Checks if sensor data is in certain bounds, then changes device status when needed
 
+		// Thread sleeps for 1 second between each data point, this is to
+		// simulate the data being gathered.
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
+		// Data is printed to the console
 		view.displaySensorData(time, model.getTemp(), model.getHumidity(), model.getLux(), stateString.at(devices.at(0)->getState()), stateString.at(devices.at(1)->getState()), stateString.at(devices.at(3)->getState()), stateString.at(devices.at(2)->getState()));
 	}
-
 	backMenu();
 }
 
@@ -388,15 +396,13 @@ void Controller::configureSensorMinMax()
 	system("CLS");
 	view.printProgramHeader();
 	view.printSensorConfigureMinMaxHeader();
-
 	view.printMessage("[1] Light Sensor\n[2] Temperature Sensor\n[3] Humidity Sensor\n\n> ");
 
+	// Sensor is selected by the user to configure via secure input
 	uint16_t sensorSelection = 0;
-
 	while (sensorSelection == 0)
 	{
 		sensorSelection = validation.unsignedIntegerValidation(3);
-		
 		switch (sensorSelection)
 		{
 		case 1:
@@ -408,6 +414,8 @@ void Controller::configureSensorMinMax()
 				view.printMessage("\n\nPlease enter new Light Min \n> ");
 				model.setMinLux(validation.unsignedIntegerValidation(3000));
 				view.printMessage("\nPlease enter new Light Max\n> ");
+
+				// Check to ensure the maxLux is larger than the previously set minLux
 				uint16_t newMaxLux = validation.unsignedIntegerValidation(3000);
 				while (newMaxLux < model.getMinLux())
 				{
@@ -428,6 +436,8 @@ void Controller::configureSensorMinMax()
 				view.printMessage("\n\nPlease enter new Temperature Min \n> ");
 				model.setMinTemp(validation.signedIntegerValidation());
 				view.printMessage("\nPlease enter new Temperature Max\n> ");
+
+				// Check to ensure the maxTemp is larger than the previously set minTemp
 				int newMaxTemp = validation.signedIntegerValidation();
 				while (newMaxTemp < model.getMinTemp())
 				{
@@ -448,6 +458,8 @@ void Controller::configureSensorMinMax()
 				view.printMessage("\n\nPlease enter new Humidity Min \n> ");
 				model.setMinHumidity(validation.unsignedIntegerValidation(100));
 				view.printMessage("\nPlease enter new Humidity Max\n> ");
+
+				// Check to ensure the maxHumidity is larger than the previously set minHumidity
 				uint16_t newMaxHumidity = validation.unsignedIntegerValidation(100);
 				while (newMaxHumidity < model.getMinHumidity())
 				{
@@ -462,9 +474,6 @@ void Controller::configureSensorMinMax()
 			break;
 		}
 	}
-
-
-
 }
 
 

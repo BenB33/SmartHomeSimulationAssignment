@@ -12,7 +12,6 @@ void User::setUsername(std::string passedUsername)
 	username = passedUsername;
 }
 
-
 // Getter and Setter for ProofOfID
 std::string User::getProofOfID()
 {

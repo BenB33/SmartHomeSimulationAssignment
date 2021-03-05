@@ -2,7 +2,6 @@
 #include "Device.h"
 
 #include <string>
-#include <iostream>
 
 class AirConditioning : public Device
 {

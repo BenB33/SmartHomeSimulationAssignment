@@ -8,6 +8,7 @@
 #include "Validation.h"
 
 #include <vector>
+#include <memory>
 #include "State.h"
 #include "View.h"
 
@@ -28,9 +29,9 @@ private:
 
 public:
 
-	Controller() = default;
-	Controller(const Controller&) = delete;
-	Controller& operator=(const Controller&) = delete;
+	Controller() = default; // Default constructor
+	Controller(const Controller&) = delete; // Deleting copy constructor
+	Controller& operator=(const Controller&) = delete; // Deleting assignment operator
 
 	void launch();
 	void menuSystem();
@@ -40,7 +41,7 @@ public:
 	void viewDeviceStatus();
 	void changeDeviceStatus();
 	void configureDeviceState();
-	void deviceManipulation();
+	void sensorDataManipulation();
 
 	void viewSensorList();
 	void readSensorData(uint16_t sampleSize);
@@ -50,6 +51,4 @@ public:
 	void checkHistoricData();
 
 	uint16_t inputSampleSize();
-
-
 };

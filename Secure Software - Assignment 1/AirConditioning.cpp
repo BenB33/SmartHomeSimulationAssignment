@@ -1,7 +1,6 @@
 #include "AirConditioning.h"
 #include "View.h"
 
-View view;
 
 std::string AirConditioning::getName()
 {
@@ -13,11 +12,13 @@ state AirConditioning::getState() noexcept
 }
 void AirConditioning::turnDeviceOn()
 {
+	View view;
 	currentACState = state::on;
-	std::cout << "The air conditioning has been turned on." << std::endl;
+	view.printMessage("The air conditioning has been turned on.\n");
 }
 void AirConditioning::turnDeviceOff()
 {
+	View view;
 	currentACState = state::off;
-	std::cout << "The air conditioning has been turned off." << std::endl;
+	view.printMessage("The air conditioning has been turned off.\n");
 }

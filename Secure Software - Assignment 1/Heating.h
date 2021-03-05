@@ -10,7 +10,6 @@ private:
 	state currentHeatingState = state::off;
 
 public:
-
 	std::string getName() override;
 	state getState() noexcept override;
 	void turnDeviceOn() override;

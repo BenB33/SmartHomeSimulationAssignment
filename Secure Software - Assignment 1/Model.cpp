@@ -2,39 +2,39 @@
 #include "Controller.h"
 
 
-Model::Model()
+Model::Model() noexcept
 {
 	retrieveData();
 }
 
 
-// Temperature getter and setter
-int Model::getTemp() const noexcept
+// Temperature Sensor getters and setters
+int16_t Model::getTemp() const noexcept
 {
 	return tempSensor.getCurrentTemp();
 }
-void Model::setTemp(const int newTemp) noexcept
+void Model::setTemp(const int16_t newTemp) noexcept
 {
 	tempSensor.setCurrentTemp(newTemp);
 }
-int Model::getMinTemp() const noexcept
+int16_t Model::getMinTemp() const noexcept
 {
 	return tempSensor.getMinTemp();
 }
-int Model::getMaxTemp() const noexcept
+int16_t Model::getMaxTemp() const noexcept
 {
 	return tempSensor.getMaxTemp();
 }
-void Model::setMinTemp(int newMinTemp) noexcept
+void Model::setMinTemp(int16_t newMinTemp) noexcept
 {
 	tempSensor.setMinTemp(newMinTemp);
 }
-void Model::setMaxTemp(int newMaxTemp) noexcept
+void Model::setMaxTemp(int16_t newMaxTemp) noexcept
 {
 	tempSensor.setMaxTemp(newMaxTemp);
 }
 
-// Lux level (light) getter and setter
+// Light Sensor getters and setters
 uint16_t Model::getLux() const noexcept
 {
 	return lightSensor.getCurrentLux();
@@ -60,7 +60,7 @@ void Model::setMaxLux(uint16_t newMaxLux) noexcept
 	lightSensor.setMaxLux(newMaxLux);
 }
 
-// Humidity Level getter and setter
+// Humidity Sensor getters and setters
 uint16_t Model::getHumidity() const noexcept
 {
 	return humiditySensor.getCurrentHumidity();
@@ -86,10 +86,10 @@ void Model::setMaxHumidity(uint16_t newMaxHumidity) noexcept
 	humiditySensor.setMaxHumidity(newMaxHumidity);
 }
 
-
+// Sets the data inside of the model class to the data from the
+// sensors.
 void Model::retrieveData() noexcept
 {
-	// Retrieve Data from File
 	temperature = tempSensor.getCurrentTemp();
 	humidity = humiditySensor.getCurrentHumidity();
 	luxLevel = lightSensor.getCurrentLux();

@@ -14,14 +14,14 @@ state Light::getState() noexcept
 
 void Light::turnDeviceOn()
 {
-	const View view;
+	View view;
 	currentLightState = state::on;
 	view.printMessage("The light has been turned on.\n");
 }
 
 void Light::turnDeviceOff()
 {
-	const View view;
+	View view;
 	currentLightState = state::off;
 	view.printMessage("The light has been turned off.\n");
 }
