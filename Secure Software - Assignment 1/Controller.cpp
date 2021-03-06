@@ -371,11 +371,26 @@ void Controller::readSensorData(uint16_t sampleSize)
 	{
 		time = i * gsl::narrow_cast<uint16_t>(10); // Time is in 10 minute intervals
 
-		// Temp Lux and Humidity is set to an accurate random number using
+		// Variableas are created to simulate an accurate random number using
 		// default random engine and normal distribution initialized above
-		model.setTemp(static_cast<uint16_t>(tempDistribution(gen)));
-		model.setLux(static_cast<uint16_t>(luxDistribution(gen)));
-		model.setHumidity(static_cast<uint16_t>(humidDistribution(gen)));
+		const int16_t newTemp = static_cast<int16_t>(tempDistribution(gen));
+		const uint16_t newLux = static_cast<uint16_t>(luxDistribution(gen));
+		const uint16_t newHumidity = static_cast<uint16_t>(humidDistribution(gen));
+
+		// If the random simulated values are bigger than the sensors max or smaller than
+		// the sensors min, then the values are set to the max and min accordingly.
+		if (newTemp < model.getMinTemp()) model.setTemp(model.getMinTemp());
+		else model.setTemp(newTemp);
+		if (newTemp > model.getMaxTemp()) model.setTemp(model.getMaxTemp());
+		else model.setTemp(newTemp);
+		if (newLux < model.getMinLux()) model.setLux(model.getMinLux());
+		else model.setLux(newLux);
+		if (newLux > model.getMaxLux()) model.setLux(model.getMaxLux());
+		else model.setLux(newLux);
+		if (newHumidity < model.getMinHumidity()) model.setHumidity(model.getMinHumidity());
+		else model.setHumidity(newHumidity);
+		if (newHumidity > model.getMaxHumidity()) model.setHumidity(model.getMaxHumidity());
+		else model.setHumidity(newHumidity);
 
 		sensorDataManipulation(); // Changes the environment (Temp, etc) depending on device state (If heating is on, will gradually get hotter)
 		configureDeviceState(); // Checks if sensor data is in certain bounds, then changes device status when needed
